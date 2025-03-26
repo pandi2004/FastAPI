@@ -16,7 +16,7 @@
         .edit { color: blue; }
         .delete { color: red; }
 
-        /* Loader Styles */
+        /* 🔹 Loader Styles */
         #loader {
             display: none; /* Initially hidden */
             text-align: center;
@@ -77,7 +77,7 @@
             </tr>
         </thead>
         <tbody>
-            
+            <!-- Driver data will be injected here -->
         </tbody>
     </table>
 </div>
@@ -99,22 +99,22 @@ function getCookie(name) {
         
         $("#loader").show(); //Show loader before request
 
-        let userToken = getCookie("token"); // Get token from cookies
+        let userToken = getCookie("token"); // ✅ Get token from cookies
     console.log("🔹 Retrieved Token:", userToken);
 
         $.ajax({
             url: "http://127.0.0.1:8000/drivers",
             type: "GET",
             success: function(response) {
-                $("#loader").hide(); // Hide loader when data is received
+                $("#loader").hide(); // ✅ Hide loader when data is received
                 let tableBody = $("#driversTable tbody");
                 tableBody.empty();
 
-            // Check if user is logged in
+            // ✅ Check if user is logged in
             // const isLoggedIn = typeof userToken !== "undefined" && userToken.trim() !== ""
             const isLoggedIn = userToken.trim() !== "";
 
-            // Show or Hide "Actions" Column Based on Login Status
+            // ✅ Show or Hide "Actions" Column Based on Login Status
             if (isLoggedIn) {
                 $("#actionsHeader").show(); // Show "Actions" column
             } else {
@@ -131,7 +131,7 @@ function getCookie(name) {
                         <td>${driver.titles}</td>
                     <td>${driver.team}</td>`;
 
-                // Add "Actions" only if user is logged in
+                // ✅ Add "Actions" only if user is logged in
                 if (isLoggedIn) {
                     row += `<td>
                             <button class="action-btn edit">✏️</button>
@@ -145,7 +145,7 @@ function getCookie(name) {
             },
             error: function(err) {
             $("#loader").hide(); // Hide loader on error
-            console.error("AJAX Error:", err);
+            console.error("❌ AJAX Error:", err);
             alert("Error fetching data. Check API response.");
             }
         });
