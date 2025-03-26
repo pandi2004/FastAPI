@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>F1 Manager - Login & Add Driver</title>
+    <link rel="stylesheet" href="/static/lg.css">
+    <script type="module" defer src="/static/firebase-login.js"></script>
+    <script type="module" defer src="/static/auth.js"></script>
+  </head>
+  <body>
+    <!-- Login Form -->
+    <header>
+      <div class="logo">Logo</div>
+      <nav>
+          <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/drivers-page">Drivers</a></li>
+              <li><a href="/teams">Teams</a></li>
+              <!-- <li><a href="#">Comparison</a></li> -->
+              <li><a href="/login" id="auth-button">Login</a></li>
+          </ul>
+      </nav>
+  </header>
+    <div class="container" id="login-box">
+      <h2>Login</h2>
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" />
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" />
+      </div>
+      <button class="login-btn" id="login">Login</button>
+    
+      <button class="login-btn" id="sign-up" style="margin-top: 20px;">Sign Up</button>
+    </div>
+    <div style="margin-top: 20px; text-align: center;">
+      <p style="font-weight: 700;font-size:18px; text-align: center; text-decoration: underline;">User Credential for Login</p>
+      <p style="margin-top: 15px;">Email: <b>test@gmail.com</b></p>
+      <p style="margin-top: 10px;">Password: <b>test12345</b></p>
+    </div>
+  </body>
+
+
+</html>

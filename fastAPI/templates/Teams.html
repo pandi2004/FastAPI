@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Search Drivers</title>
+    <title>Search Teams</title>
     <link rel="stylesheet" href="DriverTeam.css" />
   </head>
   <body>
@@ -18,55 +18,55 @@
     </div>
 
     <div class="search-container">
-      <h2>Search Drivers</h2>
-      <form class="search-form">
-        <select class="custom-dropdown">
-          <option>Select Driver ID (optional)</option>
-          <option>Red Bull Racing 1</option>
-          <option>Mercedes 1</option>
-          <option>Ferrari 1</option>
-        </select>
-        <div class="custom-multi-dropdown">
-          <select class="custom-dropdown">
-            <option>Attribute</option>
-          </select>
-          <div class="dropdown-options">
-            <label class="checkbox-option">
-              <span>Year Founded</span>
-              <input type="checkbox" id="year-founded" />
-            </label>
-            <label class="checkbox-option">
-              <span>Total Pole Positions</span>
-              <input type="checkbox" id="total-pole-positions" />
-            </label>
-            <label class="checkbox-option">
-              <span>Race Wins</span>
-              <input type="checkbox" id="race-wins" />
-            </label>
-            <label class="checkbox-option">
-              <span>Constructor Titles</span>
-              <input type="checkbox" id="constructor-titles" />
-            </label>
-            <label class="checkbox-option">
-              <span>Previous Season Finishing Position</span>
-              <input type="checkbox" id="previous-season" />
-            </label>
-          </div>
-        </div>
-        <select class="custom-dropdown">
-          <option>Greater Than</option>
-          <option>Lesser Than</option>
-          <option>Equal to</option>
-        </select>
-        <select class="custom-dropdown">
-          <option>Select Value</option>
-          <option>10</option>
-          <option>20</option>
-          <option>30</option>
-        </select>
-      </form>
-      <br />
-      <button class="search-btn">Search</button>
+        <h2>Search Drivers</h2>
+        <form class="search-form">
+            <select class="custom-dropdown">
+                <option>Select Driver ID (optional)</option>
+                <option>Red Bull Racing 1</option>
+                <option>Mercedes 1</option>
+                <option>Ferrari 1</option>
+            </select>
+            <div class="custom-multi-dropdown">
+                <select class="custom-dropdown">
+                    <option>Attribute</option>
+                </select>
+                <div class="dropdown-options">
+                    <label class="checkbox-option">
+                        <span>Year Founded</span>
+                        <input type="checkbox" id="year-founded">
+                    </label>
+                    <label class="checkbox-option">
+                        <span>Total Pole Positions</span>
+                        <input type="checkbox" id="total-pole-positions">
+                    </label>
+                    <label class="checkbox-option">
+                        <span>Race Wins</span>
+                        <input type="checkbox" id="race-wins">
+                    </label>
+                    <label class="checkbox-option">
+                        <span>Constructor Titles</span>
+                        <input type="checkbox" id="constructor-titles">
+                    </label>
+                    <label class="checkbox-option">
+                        <span>Previous Season Finishing Position</span>
+                        <input type="checkbox" id="previous-season">
+                    </label>
+                </div>
+            </div>
+            <select class="custom-dropdown">
+                <option>Greater Than</option>
+                <option>Lesser Than</option>
+                <option>Equal to</option>
+            </select>
+            <select class="custom-dropdown">
+                <option>Select Value</option>
+                <option>10</option>
+                <option>20</option>
+                <option>30</option>
+            </select>
+        </form>
+        <br>
+        <button class="search-btn">Search</button>
     </div>
 
     <div class="table-container">
@@ -82,25 +82,23 @@
       <table>
         <thead>
           <tr>
-            <th>NAME / ID</th>
-            <th>AGE</th>
-            <th>POINTS SCORED</th>
+            <th>TEAM NAME</th>
+            <th>FOUNDED</th>
             <th>WINS</th>
-            <th>POLES</th>
-            <th>TITLES</th>
-            <th>TEAM</th>
+            <th>POLE POSITION</th>
+            <th>RACE WINS</th>
+            <th>CONSTRUCTOR TITLES</th>
             <th>ACTIONS</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>SANTHOSH 001</strong></td>
-            <td>23</td>
-            <td>3678</td>
-            <td>25</td>
-            <td>32</td>
-            <td>3</td>
             <td class="team">RED BULL RACING</td>
+            <td><strong>2005</strong></td>
+            <td><strong>115</strong></td>
+            <td><strong>50</strong></td>
+            <td><strong>300</strong></td>
+            <td><strong>3</strong></td>
             <td class="actions">
               <div style="cursor: pointer">
                 <svg

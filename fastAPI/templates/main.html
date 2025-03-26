@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>F1 Stats</title>
-    <link rel="stylesheet" href="/static/frontPage.css">
-    <script defer src="/static/frontPage.js"></script>
+    <link rel="stylesheet" href="/static/fPage.css">
+    <script defer src="/static/auth.js"></script>
+    <!-- <script type="module" defer src="/static/firebase-login.js"></script> -->
 </head>
 <body>
     <header>
@@ -13,10 +14,10 @@
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="/drivers">Drivers</a></li>
+                <li><a href="/drivers-page">Drivers</a></li>
                 <li><a href="/teams">Teams</a></li>
                 <!-- <li><a href="#">Comparison</a></li> -->
-                <li><a href="/login" >Login</a></li>
+                <li><a href="/login" id="auth-button">Login</a></li>
             </ul>
         </nav>
     </header>
@@ -32,4 +33,5 @@
         </div>
     </section>
 </body>
+
 </html>

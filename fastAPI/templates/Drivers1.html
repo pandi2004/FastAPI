@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Drivers</title>
+    <link rel="stylesheet" href="/static/DriverTeam.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+       
+        /* Loader Styles */
+        #loader {
+            display: none; /* Initially hidden */
+            text-align: center;
+            margin-top: 20px;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">Logo</div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/drivers-page">Drivers</a></li>
+                <li><a href="/teams">Teams</a></li>
+                <!-- <li><a href="#">Comparison</a></li> -->
+                <li><a href="/login" id="auth-button">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="search-container" style="margin-top: 10%;">
+        <h2>Search Drivers</h2>
+        <form class="search-form">
+            <select class="custom-dropdown">
+                <option>Select Driver ID (optional)</option>
+                <option>Red Bull Racing 1</option>
+                <option>Mercedes 1</option>
+                <option>Ferrari 1</option>
+            </select>
+            <div class="custom-multi-dropdown">
+                <select class="custom-dropdown">
+                    <option disabled selected>Select Attribute</option>
+                </select>
+                <div class="dropdown-options">
+                    <label for="year-founded" class="checkbox-option">
+                        <input type="checkbox" id="year-founded">
+                        <span>Year Founded</span>
+                    </label>
+                    <label for="total-pole-positions" class="checkbox-option">
+                        <input type="checkbox" id="total-pole-positions">
+                        <span>Total Pole Positions</span>
+                    </label>
+                    <label for="race-wins" class="checkbox-option">
+                        <input type="checkbox" id="race-wins">
+                        <span>Race Wins</span>
+                    </label>
+                    <label for="constructor-titles" class="checkbox-option">
+                        <input type="checkbox" id="constructor-titles">
+                        <span>Constructor Titles</span>
+                    </label>
+                    <label for="previous-season" class="checkbox-option">
+                        <input type="checkbox" id="previous-season">
+                        <span>Previous Season Finishing Position</span>
+                    </label>
+                </div>
+            </div>
+            
+            <select class="custom-dropdown">
+                <option>Greater Than</option>
+                <option>Lesser Than</option>
+                <option>Equal to</option>
+            </select>
+            <select class="custom-dropdown">
+                <option>Select Value</option>
+                <option>10</option>
+                <option>20</option>
+                <option>30</option>
+            </select>
+        </form>
+        <br>
+        <button class="search-btn">Search</button>
+    </div>
+    <!-- Loader -->
+    <div id="loader">
+        <div class="spinner"></div>
+        <p>Loading data, please wait...</p>
+    </div>
+
+    <div class="table-container">
+        <div class="table-header">
+          
+            <div>
+                <a href="#" style="color: blue; text-decoration: none;">Add New Team</a>
+                <span>Compare</span>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>NAME / ID</th>
+                    <th>AGE</th>
+                    <th>POINTS SCORED</th>
+                    <th>WINS</th>
+                    <th>POLES</th>
+                    <th>TITLES</th>
+                    <th>TEAM</th>
+                    <th id="actionsHeader" style="display: none;">ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+</body>
+<script>
+
+document.querySelector(".custom-dropdown").addEventListener("click", function() {
+    let dropdown = document.querySelector(".dropdown-options");
+    dropdown.style.display = dropdown.style.display === "none" || dropdown.style.display === "" ? "block" : "none";
+});
+
+
+    function getCookie(name) {
+        let cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            let [key, value] = cookie.trim().split('=');
+            if (key === name) return value;
+        }
+        return "";
+    }
+
+    const userToken = "{{ user_token | default('') }}";
+    console.log(userToken)
+    function searchDrivers() {
+
+        $("#loader").show(); //Show loader before request
+
+        let userToken = getCookie("token"); // Get token from cookies
+        console.log("🔹 Retrieved Token:", userToken);
+
+        $.ajax({
+            url: "http://127.0.0.1:8000/drivers",
+            type: "GET",
+            success: function (response) {
+                $("#loader").hide(); // Hide loader when data is received
+                let tableBody = $("#driversTable tbody");
+                tableBody.empty();
+
+                // Check if user is logged in
+                // const isLoggedIn = typeof userToken !== "undefined" && userToken.trim() !== ""
+                const isLoggedIn = userToken.trim() !== "";
+
+                // Show or Hide "Actions" Column Based on Login Status
+                if (isLoggedIn) {
+                    $("#actionsHeader").show(); // Show "Actions" column
+                } else {
+                    $("#actionsHeader").hide(); // Hide "Actions" column
+                }
+
+                response.data.forEach(driver => {
+                    let row = `<tr>
+                            <td>${driver.name} / ${driver.id}</td>
+                            <td>${driver.age}</td>
+                            <td>${driver.points_scored}</td>
+                            <td>${driver.wins}</td>
+                            <td>${driver.poles}</td>
+                            <td>${driver.titles}</td>
+                        <td>${driver.team}</td>`
+
+                    // Add "Actions" only if user is logged in
+                    if (isLoggedIn) {
+                        row += `<td>
+                                <button class="action-btn edit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                        </svg></button>
+                                <button class="action-btn delete"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
+                            </svg></button>
+                        </td>`;
+                    }
+
+                    <td class="checkbox-cell">
+                        <input type="checkbox" />
+                    </td>
+                    row += `</tr>`; // Close row
+                    tableBody.append(row);
+                });
+            },
+            error: function (err) {
+                $("#loader").hide(); // Hide loader on error
+                console.error("AJAX Error:", err);
+                alert("Error fetching data. Check API response.");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        searchDrivers();
+    });
+</script>
+
+</html>
