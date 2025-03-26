@@ -4,20 +4,20 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import os
 from google.cloud import firestore
-import firebase_admin
-from firebase_admin import credentials, auth
+# import firebase_admin
+# from firebase_admin import credentials, auth
 import google.oauth2.id_token
 from google.auth.transport import requests
 
 firebase_request_adapter = requests.Request()
 
 # Set paths (Windows specific)
-service_account_path = "firstapp78-firebase-adminsdk-fbsvc-e08994c4fc.json"
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = service_account_path
+# service_account_path = "firstapp78-firebase-adminsdk-fbsvc-e08994c4fc.json"
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = service_account_path
 
 # Initialize Firebase
-firebase_cred = credentials.Certificate(service_account_path)
-firebase_admin.initialize_app(firebase_cred)
+# firebase_cred = credentials.Certificate(service_account_path)
+# firebase_admin.initialize_app(firebase_cred)
 
 # Initialize Firestore with explicit project ID
 db = firestore.Client(project="firstapp78")

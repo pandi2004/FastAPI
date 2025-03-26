@@ -142,11 +142,10 @@ td {
 }
 
 .actions {
-    display: flex
-    ;
-        justify-content: space-between;
-        padding: 35px;
-        gap: 25px;
+  display: flex;
+  justify-content: space-between;
+  padding: 35px;
+  gap: 25px;
   /* gap: 10px; */
   /* align-items: center; */
 }
@@ -217,7 +216,6 @@ h2 {
   position: relative;
   width: 100%;
   max-width: 300px;
-
 }
 
 .dropdown-options {
@@ -252,14 +250,13 @@ input[type="checkbox"] {
   height: 16px;
   border-radius: 1.5px;
   border-radius: 10px;
-  border-color: rgba(78, 97, 246, 1);;
+  border-color: rgba(78, 97, 246, 1);
 }
 
 .dropdown-options label {
   font-size: 15px;
 }
-.checkbox-option{
-    display: flex;
-    justify-content: space-between;
+.checkbox-option {
+  display: flex;
+  justify-content: space-between;
 }
-
