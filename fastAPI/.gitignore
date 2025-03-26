@@ -1,3 +1,8 @@
 dbcc-adc89-firebase-adminsdk-fbsvc-38636a5989.json
 __pycache__/
 .vscode/
+google-cloud-sdk/
+cloud_env.bat
+install_mode
+supercloud-16x16.ico
+uninstaller.exe

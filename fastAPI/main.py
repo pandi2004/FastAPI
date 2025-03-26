@@ -26,7 +26,9 @@ service_account_path = r"dbcc-adc89-firebase-adminsdk-fbsvc-38636a5989.json"
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = service_account_path
 
 # Firestore Database
+# db = firestore.Client(project="fastapiproject-19c47")
 db = firestore.Client()
+
 
 # Mount static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
