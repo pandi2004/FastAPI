@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Comparison</title>
+    <link rel="stylesheet" href="/static/Compare_Driver.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Logo</div>
+        <nav>
+            <a href="#">Drivers</a>
+            <a href="#">Teams</a>
+            <a href="#" class="active">Comparison</a>
+            <a href="#" class="logout">Logout</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1 class="heading">Stats</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Max Verstappen</th>
+                    <th>Lewis Hamilton</th>
+                    <th>Better Performer</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Age</td>
+                    <td >26</td>
+                    <td>39</td>
+                    <td>Max Verstappen</td>
+                </tr>
+                <tr>
+                    <td>Total Pole Positions</td>
+                    <td>105</td>
+                    <td >104</td>
+                    <td>Hamilton</td>
+                </tr>
+                <tr>
+                    <td>Race Wins</td>
+                    <td>60</td>
+                    <td >103</td>
+                    <td>Hamilton</td>
+                </tr>
+                <tr>
+                    <td>Points Scored</td>
+                    <td>2500</td>
+                    <td >4300</td>
+                    <td>Hamilton</td>
+                </tr>
+                <tr>
+                    <td>World Titles</td>
+                    <td>3</td>
+                    <td >7</td>
+                    <td>Hamilton</td>
+                </tr>
+                <tr>
+                    <td>Fastest Laps</td>
+                    <td>25</td>
+                    <td>69</td>
+                    <td>Hamilton</td>
+                </tr>
+                <tr>
+                    <td>Teams</td>
+                    <td>Red Bull Racing</td>
+                    <td>Mercedes</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="conclusion">
+            <span class="checkmark">✔</span>
+            <p> <span class="highlight-text">Lewis Hamilton</span> has superior stats in most categories except age.</p>
+        </div>
+    </main>
+
+</body>
+<script>
+$(document).ready(function(){
+    //Highlight Row on Hover
+    $("table tbody tr").hover(
+        function() { $(this).css("background-color", "#f0f8ff"); },
+        function() { $(this).css("background-color", ""); }
+    );
+
+    //Toggle Table Visibility When Clicking the Title
+    $("h1").click(function(){ $("table").fadeToggle(); });
+
+    //Change "Better Performer" Column Color
+    $("td:last-child").each(function(){
+        if($(this).text().trim() !== "-") {
+            $(this).css({ "color": "green", "font-weight": "bold" });
+        }
+    });
+
+    //Flash Animation for Conclusion Text
+    $(".conclusion").fadeOut(500).fadeIn(500).fadeOut(500).fadeIn(500);
+
+    //Compare Values & Highlight the Best One
+    $("tbody tr").each(function(){
+        let row = $(this);
+        let cells = row.find("td");
+        let attributeName = cells.eq(0).text().trim(); // First column (attribute name)
+        let bestPerformerCell = cells.last(); // "Better Performer" column
+
+        let bestCell = null;
+        let bestValue = (attributeName === "Age") ? Infinity : -Infinity; // Lower is better for Age
+
+        // Compare values in columns 2 & 3
+        for(let i = 1; i <= 2; i++) {
+            let value = parseInt(cells.eq(i).text(), 10);
+            if (!isNaN(value)) {
+                if ((attributeName === "Age" && value < bestValue) || 
+                    (attributeName !== "Age" && value > bestValue)) {
+                    bestValue = value;
+                    bestCell = cells.eq(i);
+                }
+            }
+        }
+
+        // Highlight the best value
+        if (bestCell) {
+            bestCell.css({ "background-color": "#d4f4d4", "font-weight": "bold" });
+
+            // Update "Better Performer" column
+            bestPerformerCell.text(bestCell.index() === 1 ? "Max Verstappen" : "Lewis Hamilton");
+        }
+    });
+
+    //Determine Overall Best Performer (Based on "Race Wins")
+    let verstappenWins = parseInt($("tbody tr:contains('Race Wins') td:eq(1)").text(), 10);
+    let hamiltonWins = parseInt($("tbody tr:contains('Race Wins') td:eq(2)").text(), 10);
+    let bestPerformer = (hamiltonWins > verstappenWins) ? "Lewis Hamilton" : "Max Verstappen";
+
+    //Update Conclusion Section Dynamically
+    $(".conclusion p").html(`<span class="highlight-text">${bestPerformer}</span> has superior stats overall.`);
+});
+
+
+</script>
+</html>

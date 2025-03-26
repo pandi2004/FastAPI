@@ -1,0 +1,134 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.logout {
+    color: red;
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    background: url('team-background.jpg') no-repeat center center/cover;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.profile {
+    position: relative;
+    text-align: center;
+    z-index: 1;
+}
+
+.profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid white;
+}
+
+/* Info Section */
+.info-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 20px 40px;
+    background: white;
+}
+
+.info-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-box label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.info-box input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Achievements Section */
+.achievements {
+    padding: 20px 40px;
+    background: white;
+}
+
+.achievements h2 {
+    color: blue;
+}
+
+.add-description {
+    color: blue;
+    text-decoration: none;
+    float: right;
+}
+
+.achievement-card {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 10px 0;
+    position: relative;
+}
+
+.achievement-card h3 {
+    color: blue;
+}
+
+.edit {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    color: blue;
+    text-decoration: none;
+}
+
+/* Edit Button */
+.edit-button {
+    display: block;
+    width: 100%;
+    background: blue;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}

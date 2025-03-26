@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Drivers</title>
+    <link rel="stylesheet" href="d9c.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo"><strong>Logo</strong></div>
+        <div class="nav-links">
+            <a href="#" class="active">Drivers</a>
+            <a href="#">Teams</a>
+            <a href="#">Comparison</a>
+        </div>
+        <div class="logout">logout</div>
+    </div>
+
+    <!-- Search Form -->
+    <div class="search-container">
+        <h2>Search Drivers</h2>
+        <form class="search-form">
+            <select name="driver_id">
+                <option>Team ID (optional)</option>
+            </select>
+            <select name="attribute">
+                <option>Attribute</option>
+            </select>
+            <select name="comparison">
+                <option>Comparison</option>
+            </select>
+            <select name="value">
+                <option>Value</option>
+            </select>
+        </form>
+        <br>
+        <button class="search-btn">Search</button>
+    </div>
+
+    <!-- Driver Table -->
+    <div class="table-container">
+        <div class="table-header">
+            <span>Age / greater than / 20</span>
+            <span><a href="#" style="color: blue; text-decoration: none;">Add New Team</a> | Compare</span>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>TEAM NAME</th>
+                    <th>FOUNDED</th>
+                    <th>WINS</th>
+                    <th>POLE POSITION</th>
+                    <th>RACE WINS</th>
+                    <th>CONSTRUCTOR TITLES</th>
+                    <th>ACTIONS</th>
+                    <th class="checkbox-cell"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="team">RED BULL RACING</td>
+                    <td><strong>2005</strong></td>
+                    <td><strong>115</strong></td>
+                    <td><strong>50</strong></td>
+                    <td><strong>300</strong></td>
+                    <td><strong>3</strong></td>
+                    <td class="actions">
+                        🗑️ ✏️
+                    </td>
+                    <td class="checkbox-cell">
+                        <input type="checkbox" checked>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <span>&lt;</span>
+            <span class="active">1</span>
+            <span>2</span>
+            <span>...</span>
+            <span>23</span>
+            <span>24</span>
+            <span>&gt;</span>
+        </div>
+    </div>
+
+</body>
+</html>

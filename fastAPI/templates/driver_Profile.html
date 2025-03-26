@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <body class="bg-gray-900 text-gray-100">
+
+        <!-- Navigation Bar -->
+        <nav class="bg-white text-black px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold">Logo</div>
+            <div class="space-x-6">
+                <a href="#" class="hover:text-blue-500">Drivers</a>
+                <a href="#" class="hover:text-blue-500">Teams</a>
+                <a href="#" class="hover:text-blue-500">Comparison</a>
+                <a href="#" class="hover:text-red-500">Logout</a>
+            </div>
+        </nav>
+    
+        <!-- Profile Header -->
+        <div class="relative">
+            <img src="https://source.unsplash.com/1600x500/?racing,car" alt="Driver Background" class="w-full h-64 object-cover">
+            <div class="absolute top-40 left-1/2 transform -translate-x-1/2 text-center">
+                <img src="https://source.unsplash.com/150x150/?portrait,man" alt="Driver" class="rounded-full border-4 border-white mx-auto">
+                <h1 class="text-2xl font-bold mt-3">MAX EMILIAN VERSTAPPEN</h1>
+                <h2 class="text-blue-500 font-semibold">RED BULL RACING</h2>
+            </div>
+        </div>
+    
+        <!-- Profile Details -->
+        <div class="bg-white text-black mx-10 my-10 p-10 rounded-lg shadow-lg">
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Left Column -->
+                <div>
+                    <div class="mb-4">
+                        <label class="text-gray-600">Full Name</label>
+                        <input type="text" class="w-full p-2 border rounded bg-gray-100" value="Max Emilian Verstappen" disabled>
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-gray-600">Driver ID</label>
+                        <input type="text" class="w-full p-2 border rounded bg-gray-100" value="wrewavr" disabled>
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-gray-600">Pole Position</label>
+                        <input type="text" class="w-full p-2 border rounded bg-gray-100" value="werv4r4r" disabled>
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-gray-600">Language</label>
+                        <input type="text" class="w-full p-2 border rounded bg-gray-100" value="Tamil" disabled>
+                    </div>
+                </div>
+    
+                <!-- Right Column -->
+                <div>
+                    <div class="mb-4">
+                        <label class="text-gray-600">Age</label>
+                        <input type="text" class="w-full p-2 border rounded bg-gray-100" value="26" disabled>
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-gray-600">Race Wins</label>
+                        <input type="text" class="w-full p-2 border rounded bg-gray-100" value="47" disabled>
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-gray-600">Country Titles</label>
+                        <input type="text" class="w-full p-2 border rounded bg-gray-100" value="81" disabled>
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-gray-600">Team</label>
+                        <input type="text" class="w-full p-2 border rounded bg-gray-100" value="Red Bull Racing" disabled>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Additional Information -->
+            <h2 class="text-blue-500 text-xl font-semibold mt-8">Additional Information</h2>
+            <div class="grid grid-cols-2 gap-6 mt-4">
+                <!-- Left Column -->
+                <div>
+                    <h3 class="text-gray-800 font-bold">Personal Information</h3>
+                    <div class="mb-4">
+                        <label class="text-gray-600">Date of Birth</label>
+                        <input type="text" class="w-full p-2 border rounded bg-gray-100" value="30 September 1997" disabled>
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-gray-600">Nationality</label>
+                        <input type="text" class="w-full p-2 border rounded bg-gray-100" value="Dutch" disabled>
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-gray-600">Father</label>
+                        <input type="text" class="w-full p-2 border rounded bg-gray-100" value="Jos Verstappen" disabled>
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-gray-600">Mother</label>
+                        <input type="text" class="w-full p-2 border rounded bg-gray-100" value="Sophie Kumpen" disabled>
+                    </div>
+                </div>
+    
+                <!-- Right Column -->
+                <div>
+                    <h3 class="text-gray-800 font-bold">Career Highlights & Achievements</h3>
+                    <div class="mb-4">
+                        <label class="text-gray-600">World Championships</label>
+                        <input type="text" class="w-full p-2 border rounded bg-gray-100" value="3 (2021, 2022, 2023)" disabled>
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-gray-600">Total Fastest Laps</label>
+                        <input type="text" class="w-full p-2 border rounded bg-gray-100" value="25 (Quickest Race Lap Times)" disabled>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Edit Button -->
+            <div class="text-center mt-6">
+                <button class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">EDIT</button>
+            </div>
+        </div>
+</body>
+</html>

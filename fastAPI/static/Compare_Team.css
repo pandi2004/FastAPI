@@ -1,0 +1,90 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.active {
+    color: blue;
+}
+
+.logout {
+    color: red;
+}
+
+/* Main Section */
+main {
+    background: white;
+    margin: 40px auto;
+    padding: 20px;
+    width: 80%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+th {
+    background: blue;
+    color: white;
+}
+
+.highlight {
+    background: #dff0d8;
+}
+
+.heading{
+    cursor: pointer;
+}
+
+/* Conclusion */
+.conclusion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eef7ee;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.checkmark {
+    color: green;
+    font-size: 20px;
+    margin-right: 10px;
+}

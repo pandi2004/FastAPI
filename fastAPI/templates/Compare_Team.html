@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Teams</title>
+    <link rel="stylesheet" href="static/Compare_Team.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Logo</div>
+        <nav>
+            <a href="#">Drivers</a>
+            <a href="#">Teams</a>
+            <a href="#" class="active">Comparison</a>
+            <a href="#" class="logout">Logout</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1 class="heading">Comparing Red Bull Racing vs. Mercedes</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Red Bull Racing</th>
+                    <th>Mercedes</th>
+                    <th>Better Team</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Year Founded</td>
+                    <td>2005</td>
+                    <td>1954</td>
+                    <td>Red Bull (Newer)</td>
+                </tr>
+                <tr>
+                    <td>Total Pole Positions</td>
+                    <td>85</td>
+                    <td>140</td>
+                    <td>Mercedes</td>
+                </tr>
+                <tr>
+                    <td>Race Wins</td>
+                    <td>120</td>
+                    <td>125</td>
+                    <td>Mercedes</td>
+                </tr>
+                <tr>
+                    <td>Constructor Titles</td>
+                    <td>5</td>
+                    <td>8</td>
+                    <td>Mercedes</td>
+                </tr>
+                <tr>
+                    <td>Previous Season Finishing Position</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>Red Bull</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="conclusion">
+            <span class="checkmark">✔</span>
+            <p>Mercedes has superior overall stats, but Red Bull has been the recent dominant force.</p>
+        </div>
+    </main>
+
+</body>
+<script>
+    $(document).ready(function(){
+    //Highlight Row on Hover
+    $("table tbody tr").hover(
+        function() { $(this).css("background-color", "#f0f8ff"); },
+        function() { $(this).css("background-color", ""); }
+    );
+
+    //Toggle Table Visibility When Clicking the Title
+    $("h1").click(function(){ $("table").fadeToggle(); });
+
+    //Flash Animation for Conclusion
+    $(".conclusion").fadeOut(500).fadeIn(500).fadeOut(500).fadeIn(500);
+
+    //Compare Values & Highlight the Best One
+    $("tbody tr").each(function(){
+        let row = $(this);
+        let cells = row.find("td");
+        let attribute = cells.eq(0).text().trim(); // First column (Attribute Name)
+        let betterTeamCell = cells.last(); // Last column (Better Team)
+
+        let bestCell = null;
+        let bestValue = (attribute === "Previous Season Finishing Position") ? Infinity : -Infinity; // Lower is better for finishing position
+
+        // Compare Red Bull Racing and Mercedes
+        for (let i = 1; i <= 2; i++) {
+            let value = parseInt(cells.eq(i).text(), 10);
+            if (!isNaN(value)) {
+                if ((attribute === "Previous Season Finishing Position" && value < bestValue) ||
+                    (attribute !== "Previous Season Finishing Position" && value > bestValue)) {
+                    bestValue = value;
+                    bestCell = cells.eq(i);
+                }
+            }
+        }
+
+        // Highlight the best value
+        if (bestCell) {
+            bestCell.css({ "background-color": "#d4f4d4", "font-weight": "bold" });
+
+            // Update "Better Team" column dynamically
+            betterTeamCell.text(bestCell.index() === 1 ? "Red Bull Racing" : "Mercedes");
+        }
+    });
+
+    //Determine Overall Best Team Based on Key Stats
+    let redBullWins = parseInt($("tbody tr:contains('Race Wins') td:eq(1)").text(), 10);
+    let mercedesWins = parseInt($("tbody tr:contains('Race Wins') td:eq(2)").text(), 10);
+    let redBullTitles = parseInt($("tbody tr:contains('Constructor Titles') td:eq(1)").text(), 10);
+    let mercedesTitles = parseInt($("tbody tr:contains('Constructor Titles') td:eq(2)").text(), 10);
+    let redBullPoles = parseInt($("tbody tr:contains('Total Pole Positions') td:eq(1)").text(), 10);
+    let mercedesPoles = parseInt($("tbody tr:contains('Total Pole Positions') td:eq(2)").text(), 10);
+
+    // Calculate total score based on key attributes
+    let redBullScore = redBullWins + redBullTitles + redBullPoles;
+    let mercedesScore = mercedesWins + mercedesTitles + mercedesPoles;
+
+    let overallBestTeam = (mercedesScore > redBullScore) ? "Mercedes" : "Red Bull Racing";
+
+    //Update Conclusion Section with Overall Best Team
+    $(".conclusion p").html(`<span class="highlight-text">${overallBestTeam}</span> has superior overall stats.`);
+});
+
+</script>
+</html>

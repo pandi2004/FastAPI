@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Profile</title>
+    <link rel="stylesheet" href="Team_Profile.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">Logo</div>
+        <nav>
+            <a href="#">Drivers</a>
+            <a href="#">Teams</a>
+            <a href="#">Comparison</a>
+            <a href="#" class="logout">Logout</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="overlay"></div>
+        <div class="profile">
+            <img src="team-image.jpg" alt="Team Image" class="profile-pic">
+            <h1>RED BULL RACING</h1>
+            <p>SINCE 2019</p>
+        </div>
+    </section>
+
+    <section class="info-container">
+        <div class="info-box">
+            <label>Team Name</label>
+            <input type="text" placeholder="Your First Name">
+        </div>
+        <div class="info-box">
+            <label>Enter Year Found</label>
+            <input type="text" value="24" >
+        </div>
+        <div class="info-box">
+            <label>Team Id</label>
+            <input type="text" placeholder="Enter Driver ID">
+        </div>
+        <div class="info-box">
+            <label>Country Titles</label>
+            <input type="text" value="42" >
+        </div>
+        <div class="info-box">
+            <label>Pole Position</label>
+            <input type="text" value="044">
+        </div>
+        <div class="info-box">
+            <label>Team Principal</label>
+            <input type="text" value="Christian Horner" >
+        </div>
+        <div class="info-box">
+            <label>Engine Supplier</label>
+            <input type="text" value="Honda RBPT" >
+        </div>
+        <div class="info-box">
+            <label>CEO</label>
+            <input type="text" value="Oliver Mintzlaff" >
+        </div>
+    </section>
+
+    <section class="achievements">
+        <h2>Achievements</h2>
+        <a href="#" class="add-description">+ Add description</a>
+
+        <div class="achievement-card">
+            <h3>Historic Milestones</h3>
+            <p>First F1 race win: 2009 Chinese Grand Prix (Sebastian Vettel)</p>
+            <p>Dominated F1 from 2010-2013, winning 4 consecutive titles with Vettel</p>
+            <p>Max Verstappen won 19 out of 22 races in 2023, the most dominant season ever</p>
+            <a href="#" class="edit">Edit</a>
+        </div>
+
+        <div class="achievement-card">
+            <h3>Era of Dominance</h3>
+            <p><strong>2010–2013 (Sebastian Vettel Era)</strong></p>
+            <p>4 consecutive championships</p>
+            <p>Fastest development under Adrian Newey’s car designs</p>
+            <a href="#" class="edit">Edit</a>
+        </div>
+    </section>
+
+    <button class="edit-button">EDIT</button>
+
+</body>
+<script>
+    $(document).ready(function(){
+    // Show input form on clicking "Add Description"
+    $(".add-description").click(function(e) {
+        e.preventDefault();
+        $(this).hide();
+        $(".achievements").append(`
+            <div class='description-form'>
+                <label>Description Heading</label>
+                <input type='text' id='desc-heading' placeholder='Enter Heading'>
+                <label>Description Value</label>
+                <textarea id='desc-value' placeholder='Enter Description'></textarea>
+                <button class='save-description'>Save</button>
+            </div>
+        `);
+    });
+    
+    // Save new description
+    $(document).on("click", ".save-description", function() {
+        let heading = $("#desc-heading").val();
+        let description = $("#desc-value").val();
+        
+        if (heading && description) {
+            $(".achievements").append(`
+                <div class='achievement-card'>
+                    <h3>${heading}</h3>
+                    <p>${description}</p>
+                    <a href='#' class='edit'>Edit</a>
+                </div>
+            `);
+            $(".description-form").remove();
+            $(".add-description").show();
+        }
+    });
+    
+    // Enable Editing Fields
+    $(".edit-button").click(function() {
+        $(".info-box input").prop("disabled", false);
+    });
+    
+    // API Call to Save Edits
+    $(".edit-button").click(function() {
+        let profileData = {};
+        
+        $(".info-box").each(function() {
+            let label = $(this).find("label").text().trim();
+            let value = $(this).find("input").val();
+            profileData[label] = value;
+        });
+
+        $.ajax({
+            url: "/api/updateProfile",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(profileData),
+            success: function(response) {
+                alert("Profile updated successfully!");
+                $(".info-box input").prop("disabled", true);
+            },
+            error: function() {
+                alert("Error updating profile.");
+            }
+        });
+    });
+
+    // Handle Missing Profile
+    function checkProfileExists() {
+        $.ajax({
+            url: "/api/getProfile",
+            type: "GET",
+            success: function(profile) {
+                if (!profile) {
+                    $(".info-container").html("<button class='add-profile'>+ Add Profile</button>");
+                }
+            }
+        });
+    }
+    checkProfileExists();
+
+    // Add Profile Button
+    $(document).on("click", ".add-profile", function() {
+        $(".info-container").html("<p>Fill in the details and save</p>");
+    });
+});
+
+</script>
+</html>
