@@ -41,7 +41,7 @@ def verify_firebase_token(token: str):
     
 @app.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request):
-    return templates.TemplateResponse("lg.html", {"request": request})
+    return templates.TemplateResponse("login.html", {"request": request})
 
 # Route to handle the login logic
 @app.post("/login", response_class=HTMLResponse)
