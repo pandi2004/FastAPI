@@ -6,3 +6,5 @@ cloud_env.bat
 install_mode
 supercloud-16x16.ico
 uninstaller.exe
+gcloud-key.json
+venv/

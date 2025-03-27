@@ -1,299 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Search Drivers</title>
-    <link rel="stylesheet" href="/static/DriverTeam.css">
+    <link rel="stylesheet" href="/static/DriverTeam.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="module" defer src="/static/auth.js"></script>
     <style>
-        /* Loader Styles */
-        #loader {
-            display: none;
-            /* Initially hidden */
-            text-align: center;
-            margin-top: 20px;
+      /* Loader Styles */
+      #loader {
+        display: none;
+        /* Initially hidden */
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-left-color: #007bff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: auto;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
         }
 
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-left-color: #007bff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: auto;
+        100% {
+          transform: rotate(360deg);
         }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
+      }
     </style>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <header>
-        <div class="logo">Logo</div>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/drivers-page">Drivers</a></li>
-                <li><a href="/teams">Teams</a></li>
-                <!-- <li><a href="#">Comparison</a></li> -->
-                <li><a href="/login" id="auth-button">Login</a></li>
-            </ul>
-        </nav>
+      <div class="logo" style="color: #fff;"><a href="/" style="text-decoration: none;color: #fff;">Logo</a></div>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/drivers-page">Drivers</a></li>
+          <li><a href="/teams">Teams</a></li>
+          <!-- <li><a href="#">Comparison</a></li> -->
+          <li><a href="/login" id="auth-button" style="color: #007bff;">Login</a></li>
+        </ul>
+      </nav>
     </header>
 
-    <div style="padding: 50px;;">
-        <div class="search-container" style="margin-top: 7%;">
-            <h2>Search Drivers</h2>
-            <form class="search-form">
-                <select class="custom-dropdown">
-                    <option>Select Driver ID (optional)</option>
-                    <option>Red Bull Racing 1</option>
-                    <option>Mercedes 1</option>
-                    <option>Ferrari 1</option>
-                </select>
-                <div class="custom-multi-dropdown">
-                    <div class="custom-dropdown" id="dropdown-toggle" style='padding:10px;text-align:left;'>Select
-                        Attribute</div>
-                    <div class="dropdown-options" id="dropdown-options">
-                        <label class="checkbox-option">
-                            <span>Total Pole Positions</span>
-                            <input type="checkbox" id="total-pole-positions">
-                        </label>
-                        <label class="checkbox-option">
-                            <span>Race Wins</span>
-                            <input type="checkbox" id="race-wins">
-                        </label>
-                        <label class="checkbox-option">
-                            <span>Constructor Titles</span>
-                            <input type="checkbox" id="constructor-titles">
-                        </label>
-                        <label class="checkbox-option">
-                            <span>Previous Season Finishing Position</span>
-                            <input type="checkbox" id="previous-season">
-                        </label>
-                    </div>
-                </div>
-
-                <select class="custom-dropdown">
-                    <option>Greater Than</option>
-                    <option>Lesser Than</option>
-                    <option>Equal to</option>
-                </select>
-                <select class="custom-dropdown">
-                    <option>Select Value</option>
-                    <option>10</option>
-                    <option>20</option>
-                    <option>30</option>
-                </select>
-            </form>
-            <br>
-            <button class="search-btn">Search</button>
-        </div>
-        <!-- Loader -->
-        <div id="loader">
-            <div class="spinner"></div>
-            <p>Loading data, please wait...</p>
-        </div>
-
-        <div class="table-container">
-            <div class="table-header">
-
-                <div style="margin-right: 0;text-align:right;width:100%;">
-                    <a href="#" id="add-team-link" style="color: blue; text-decoration: none;">Add New Driver</a>
-                    <span class="compareC" style="cursor:pointer; opacity:0.5; pointer-events:none;" >Compare</span>
-                </div>
+    <div style="padding: 50px">
+      <div class="search-container" style="margin-top: 7%">
+        <h2>Search Drivers</h2>
+        <form method="get" action="/drivers-page">
+          <div style="display: flex;flex-direction: row; justify-content: space-around;align-items: center; padding-top: 4px;padding-bottom: 15px;">
+            <div style="display: flex;flex-direction: row; align-items: center;">
+              <label for="field">Field:</label>
+              <select name="field" required class="custom-dropdown" style="padding: 8px;margin-left: 5px;font-size: 16px;">
+                <option value="">Select</option>
+                <option value="driver_id">Driver ID</option>
+                <option value="full_name">Name</option>
+                <option value="age">Age</option>
+                <option value="pole_position">Pole Position</option>
+                <option value="race_wins">Wins</option>
+                <option value="country_titles">Country Titles</option>
+              </select>
             </div>
-            <table id="driversTable">
-                <thead>
-                    <tr>
-                        <th>NAME / ID</th>
-                        <th>AGE</th>
-                        <th>World Champs</th>
-                        <th>WINS</th>
-                        <th>POLES</th>
-                        <th>TITLES</th>
-                        <th>TEAM</th>
-                        {% if user_token %}
-                        <th id="actionsHeader">ACTIONS</th>
-                        {% endif %}
 
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for driver in drivers %}
-                    <tr>
-                        <td>{{ driver.full_name }} / {{ driver.driver_id }}</td>
-                        <td>{{ driver.age }}</td>
-                        <td>{{ driver.world_championships }}</td>
-                        <td>{{ driver.race_wins }}</td>
-                        <td>{{ driver.pole_position }}</td>
-                        <td>{{ driver.country_titles }}</td>
-                        <td>{{ driver.team }}</td>
-                        <!-- Conditionally display the edit/delete buttons -->
-                        {% if user_token %}
-                        <td
-                            style="display:flex;flex-direction:row;align-items:center; justify-content:space-between;padding-top:25px;padding-bottom:25px">
-                            <div class="action-btn delete" data-driver="{{ driver.full_name }}"><svg
-                                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-trash" viewBox="0 0 16 16">
-                                    <path
-                                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                                    <path
-                                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-                                </svg></div>
-                            <div class="action-btn edit" data-driver="{{ driver.full_name }}"><svg xmlns="
-                                http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-pen" viewBox="0 0 16 16">
-                                    <path
-                                        d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
-                                </svg>
-                            </div>
-                        </td>
-                        {% endif %}
-                        <td class="checkbox-cell">
-                            <input type="checkbox" class="compare-checkbox" data-driver="{{ driver.full_name }}"/>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div style="display: flex;flex-direction: row; align-items: center;">
+              <label for="operator">Operator:</label>
+              <select name="operator" required class="custom-dropdown" style="padding: 8px;margin-left: 5px;font-size: 16px">
+                <option value="">Select</option>
+                <option value="eq">=</option>
+                <option value="lt">&lt;</option>
+                <option value="gt">&gt;</option>
+              </select>
+            </div>
+
+            <div style="display: flex;flex-direction: row; align-items: center;">
+              <label for="value">Value:</label>
+              <input type="text" name="value" required style="padding: 8px;margin-left: 5px; border-radius: 6px; outline: none;border: none;font-size: 16px"/>
+            </div>
+          </div>
+
+          <div><button type="submit" class="search-btn">Search</button>
+            <button type="button" onclick="window.location.href='/drivers-page'" class="search-btn">
+              Reset
+            </button></div>
+        </form>
+      </div>
+      <!-- Loader -->
+      <div id="loader">
+        <div class="spinner"></div>
+        <p>Loading data, please wait...</p>
+      </div>
+
+      <div class="table-container">
+        <div class="table-header">
+          <div style="margin-right: 0; text-align: right; width: 100%">
+            <a
+              href="#"
+              id="add-team-link"
+              style="color: rgb(255, 255, 255); text-decoration: none;cursor: pointer;background-color: #007bff;padding: 7px;border-radius: 5px;"
+              >Add New Driver</a
+            >
+            <span
+              class="compareC"
+              style="cursor: pointer; opacity: 0.5;border: 1px solid #ccc;margin-left: 10px;padding: 7px;border-radius: 5px; background-color: #008000;color: #fff;"
+              >Compare</span
+            >
+          </div>
         </div>
+        <table id="driversTable">
+          <thead>
+            <tr>
+              <th>NAME / ID</th>
+              <th>AGE</th>
+              <th>World Champs</th>
+              <th>WINS</th>
+              <th>POLES</th>
+              <th>TITLES</th>
+              <th>TEAM</th>
+              {% if user_token %}
+              <th id="actionsHeader">ACTIONS</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for driver in drivers %}
+            <tr>
+              <td>{{ driver.full_name }} / {{ driver.driver_id }}</td>
+              <td>{{ driver.age }}</td>
+              <td>{{ driver.world_championships }}</td>
+              <td>{{ driver.race_wins }}</td>
+              <td>{{ driver.pole_position }}</td>
+              <td>{{ driver.country_titles }}</td>
+              <td>{{ driver.team }}</td>
+              <!-- Conditionally display the edit/delete buttons -->
+              {% if user_token %}
+              <td
+                style="
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  justify-content: space-around;
+                  padding-top: 25px;
+                  padding-bottom: 25px;
+                "
+              >
+                <div
+                  class="action-btn delete"
+                  data-driver="{{ driver.full_name }}"
+                  style="cursor: pointer;"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="blue"
+                    class="bi bi-trash"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"
+                    />
+                    <path
+                      d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="action-btn edit"
+                  data-driver="{{ driver.full_name }}"
+                  style="cursor: pointer;"
+                >
+                  <svg
+                    xmlns="
+                                http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="blue"
+                    class="bi bi-pen"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"
+                    />
+                  </svg>
+                </div>
+              </td>
+              {% endif %}
+              <td class="checkbox-cell">
+                <input
+                  type="checkbox"
+                  class="compare-checkbox"
+                  data-driver="{{ driver.full_name }}"
+                  style="cursor: pointer;"
+                />
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
-
-</body>
-<script>
-
+  </body>
+  <script>
     $(document).on("click", ".action-btn.edit", function () {
-        let driverName = $(this).data("driver");
-        window.location.href = `/driver-profile?driverName=${encodeURIComponent(driverName)}`;
-    });
-
-    document.getElementById("dropdown-toggle").addEventListener("click", function () {
-        let dropdownOptions = document.getElementById("dropdown-options");
-        dropdownOptions.style.display = dropdownOptions.style.display === "block" ? "none" : "block";
-    });
-
-    // Hide dropdown when clicking outside
-    document.addEventListener("click", function (event) {
-        let dropdown = document.getElementById("dropdown-options");
-        let selectBox = document.getElementById("dropdown-toggle");
-
-        if (!dropdown.contains(event.target) && event.target !== selectBox) {
-            dropdown.style.display = "none";
-        }
+      let driverName = $(this).data("driver");
+      window.location.href = `/driver-profile?driverName=${encodeURIComponent(
+        driverName
+      )}`;
     });
 
     $(document).on("click", ".action-btn.delete", function () {
-        // Retrieve the driver's name from data attribute
-        let driverName = $(this).data("driver");
-        // Get token from storage/cookie (example using localStorage)
-        let token = getCookie("token"); // Adjust as per your authentication flow
+      // Retrieve the driver's name from data attribute
+      let driverName = $(this).data("driver");
+      // Get token from storage/cookie (example using localStorage)
+      let token = getCookie("token"); // Adjust as per your authentication flow
 
-        if (confirm("Are you sure you want to delete driver: " + driverName + "?")) {
-            $.ajax({
-                url: "http://127.0.0.1:8000/driver/" + encodeURIComponent(driverName) + "?token=" + token,
-                type: "DELETE",
-                success: function (response) {
-                    alert(response.message);
-                    // Optionally, refresh the driver list:
-                    // searchDrivers();
-                    location.reload();
-                },
-                error: function (err) {
-                    alert("Error deleting driver");
-                    console.error("Delete error:", err);
-                }
-            });
-        }
+      if (
+        confirm("Are you sure you want to delete driver: " + driverName + "?")
+      ) {
+        $.ajax({
+          url:
+            "http://127.0.0.1:8000/driver/" +
+            encodeURIComponent(driverName) +
+            "?token=" +
+            token,
+          type: "DELETE",
+          success: function (response) {
+            alert(response.message);
+            // Optionally, refresh the driver list:
+            // searchDrivers();
+            location.reload();
+          },
+          error: function (err) {
+            alert("Error deleting driver");
+            console.error("Delete error:", err);
+          },
+        });
+      }
     });
 
-
     function getCookie(name) {
-        let cookies = document.cookie.split(';');
-        for (let cookie of cookies) {
-            let [key, value] = cookie.trim().split('=');
-            if (key === name) return value;
-        }
-        return "";
+      let cookies = document.cookie.split(";");
+      for (let cookie of cookies) {
+        let [key, value] = cookie.trim().split("=");
+        if (key === name) return value;
+      }
+      return "";
     }
 
     $(document).on("click", "#add-team-link", function (event) {
-        event.preventDefault(); // Prevent default link behavior
+      event.preventDefault(); // Prevent default link behavior
 
-        // Retrieve token from cookie
-        let token = getCookie("token");
+      // Retrieve token from cookie
+      let token = getCookie("token");
 
-        // Check if token exists and is not empty
-        if (token && token.trim() !== "") {
-            // If logged in, navigate to driver profile page
-            // Change this URL to your actual driver profile page URL
-            window.location.href = "/driver-profile";
-        } else {
-            // If not logged in, show an alert
-            alert("Kindly login to add new Driver profile");
-        }
+      // Check if token exists and is not empty
+      if (token && token.trim() !== "") {
+        // If logged in, navigate to driver profile page
+        // Change this URL to your actual driver profile page URL
+        window.location.href = "/driver-profile";
+      } else {
+        // If not logged in, show an alert
+        alert("Kindly login to add new Driver profile");
+      }
     });
 
     //------------ compare drivers ----
     document.addEventListener("DOMContentLoaded", function () {
-    const compareBtn = document.querySelector(".compareC");
-    const checkboxes = document.querySelectorAll(".checkbox-cell input[type='checkbox']");
+      const compareBtn = document.querySelector(".compareC");
+      const checkboxes = document.querySelectorAll(
+        ".checkbox-cell input[type='checkbox']"
+      );
 
-    function updateCompareButton() {
-        let selectedCheckboxes = Array.from(checkboxes).filter(cb => cb.checked);
+      function updateCompareButton() {
+        let selectedCheckboxes = Array.from(checkboxes).filter(
+          (cb) => cb.checked
+        );
 
         if (selectedCheckboxes.length === 2) {
-            compareBtn.classList.add("enabled");
-            compareBtn.style.pointerEvents = "auto";
-            compareBtn.style.opacity = "1";
+          compareBtn.classList.add("enabled");
+          compareBtn.style.pointerEvents = "auto";
+          compareBtn.style.opacity = "1";
 
-            // Disable other checkboxes
-            checkboxes.forEach(cb => {
-                if (!cb.checked) cb.disabled = true;
-            });
+          // Disable other checkboxes
+          checkboxes.forEach((cb) => {
+            if (!cb.checked) cb.disabled = true;
+          });
         } else {
-            compareBtn.classList.remove("enabled");
-            compareBtn.style.pointerEvents = "none";
-            compareBtn.style.opacity = "0.5";
+          compareBtn.classList.remove("enabled");
+          compareBtn.style.pointerEvents = "none";
+          compareBtn.style.opacity = "0.5";
 
-            // Enable all checkboxes if less than 2 are selected
-            checkboxes.forEach(cb => cb.disabled = false);
+          // Enable all checkboxes if less than 2 are selected
+          checkboxes.forEach((cb) => (cb.disabled = false));
         }
-    }
+      }
 
-    checkboxes.forEach(cb => {
+      checkboxes.forEach((cb) => {
         cb.addEventListener("change", updateCompareButton);
-    });
+      });
 
-    compareBtn.addEventListener("click", function () {
+      compareBtn.addEventListener("click", function () {
         let selectedDrivers = Array.from(checkboxes)
-            .filter(cb => cb.checked)
-            .map(cb => cb.getAttribute("data-driver"));
+          .filter((cb) => cb.checked)
+          .map((cb) => cb.getAttribute("data-driver"));
 
         if (selectedDrivers.length === 2) {
-            let driver1 = encodeURIComponent(selectedDrivers[0]);
-            let driver2 = encodeURIComponent(selectedDrivers[1]);
-            window.location.href = `/compare-drivers?driver1=${driver1}&driver2=${driver2}`;
+          let driver1 = encodeURIComponent(selectedDrivers[0]);
+          let driver2 = encodeURIComponent(selectedDrivers[1]);
+          window.location.href = `/compare-drivers?driver1=${driver1}&driver2=${driver2}`;
         } else {
-            alert("Please select exactly 2 drivers to compare.");
+          alert("Please select exactly 2 drivers to compare.");
         }
+      });
+
+      updateCompareButton(); // Initialize
     });
-
-    updateCompareButton(); // Initialize
-});
-</script>
-
+  </script>
 </html>

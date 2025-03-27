@@ -11,132 +11,132 @@
 <body>
 
     <header>
-        <div class="logo">Logo</div>
+        <div class="logo"><a href="/" style="text-decoration: none;color: #fff;">Logo</a></div>
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/drivers-page">Drivers</a></li>
                 <li><a href="/teams">Teams</a></li>
                 <!-- <li><a href="#">Comparison</a></li> -->
-                <li><a href="/login" id="auth-button">Login</a></li>
+                <li><a href="/login" id="auth-button" style="color: #007bff">Login</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
-        <h1 class="heading">Comparing Red Bull Racing vs. Mercedes</h1>
+    <div class="container">
+        <h1 class="heading" style="text-align: center;">Comparing {{team1.tname}} vs. {{team2.tname}}</h1>
         <table>
             <thead>
                 <tr>
                     <th>Attribute</th>
-                    <th>Red Bull Racing</th>
-                    <th>Mercedes</th>
+                    <th>{{team1.tname}}</th>
+                    <th>{{team2.tname}}</th>
                     <th>Better Team</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>Year Founded</td>
-                    <td>2005</td>
-                    <td>1954</td>
-                    <td>Red Bull (Newer)</td>
+                    <td>{{team1.founded}}</td>
+                    <td>{{team2.founded}}</td>
+                    <td>{{ team1.tname if team1.founded < team2.founded else team2.tname }}</td>
                 </tr>
                 <tr>
                     <td>Total Pole Positions</td>
-                    <td>85</td>
-                    <td>140</td>
-                    <td>Mercedes</td>
+                    <td>{{ team1.pole_position }}</td>
+                    <td>{{ team2.pole_position }}</td>
+                    <td>{{ team1.tname if team1.pole_position > team2.pole_position else team2.tname }}
+                    </td>
                 </tr>
                 <tr>
                     <td>Race Wins</td>
-                    <td>120</td>
-                    <td>125</td>
-                    <td>Mercedes</td>
+                    <td>{{ team1.race_wins }}</td>
+                    <td>{{ team2.race_wins }}</td>
+                    <td>{{ team1.tname if team1.race_wins > team2.race_wins else team2.tname }}</td>
                 </tr>
                 <tr>
-                    <td>Constructor Titles</td>
-                    <td>5</td>
-                    <td>8</td>
-                    <td>Mercedes</td>
-                </tr>
-                <tr>
-                    <td>Previous Season Finishing Position</td>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>Red Bull</td>
+                    <td>World Titles</td>
+                    <td>{{ team1.world_championships }}</td>
+                    <td>{{ team2.world_championships }}</td>
+                    <td>{{ team1.tname if team1.world_championships > team2.world_championships else
+                        team2.tname }}</td>
                 </tr>
             </tbody>
         </table>
 
         <div class="conclusion">
             <span class="checkmark">✔</span>
-            <p>Mercedes has superior overall stats, but Red Bull has been the recent dominant force.</p>
+            <p><span class="highlight-text">
+                {% if team1.race_wins > team2.race_wins %}
+                {{ team1.tname }}
+                {% else %}
+                {{ team2.tname }}
+                {% endif %}
+            </span> has superior stats in most categories.</p>
         </div>
-    </main>
+    </div>
 
 </body>
 <script>
-    $(document).ready(function(){
-    //Highlight Row on Hover
-    $("table tbody tr").hover(
-        function() { $(this).css("background-color", "#f0f8ff"); },
-        function() { $(this).css("background-color", ""); }
-    );
 
-    //Toggle Table Visibility When Clicking the Title
-    $("h1").click(function(){ $("table").fadeToggle(); });
+    // Ensure jQuery runs after the page loads
+    $(document).ready(function () {
+        // Highlight Row on Hover
+        $("table tbody tr").hover(
+            function () { $(this).css("background-color", "#f0f8ff"); },
+            function () { $(this).css("background-color", ""); }
+        );
 
-    //Flash Animation for Conclusion
-    $(".conclusion").fadeOut(500).fadeIn(500).fadeOut(500).fadeIn(500);
+        // Toggle Table Visibility When Clicking the Title
+        $("h1").click(function () { $("table").fadeToggle(); });
 
-    //Compare Values & Highlight the Best One
-    $("tbody tr").each(function(){
-        let row = $(this);
-        let cells = row.find("td");
-        let attribute = cells.eq(0).text().trim(); // First column (Attribute Name)
-        let betterTeamCell = cells.last(); // Last column (Better Team)
-
-        let bestCell = null;
-        let bestValue = (attribute === "Previous Season Finishing Position") ? Infinity : -Infinity; // Lower is better for finishing position
-
-        // Compare Red Bull Racing and Mercedes
-        for (let i = 1; i <= 2; i++) {
-            let value = parseInt(cells.eq(i).text(), 10);
-            if (!isNaN(value)) {
-                if ((attribute === "Previous Season Finishing Position" && value < bestValue) ||
-                    (attribute !== "Previous Season Finishing Position" && value > bestValue)) {
-                    bestValue = value;
-                    bestCell = cells.eq(i);
-                }
+        // Change "Better Performer" Column Color
+        $("td:last-child").each(function () {
+            if ($(this).text().trim() !== "-") {
+                $(this).css({ "color": "green", "font-weight": "bold" });
             }
-        }
+        });
 
-        // Highlight the best value
-        if (bestCell) {
-            bestCell.css({ "background-color": "#d4f4d4", "font-weight": "bold" });
+        // Flash Animation for Conclusion Text
+        $(".conclusion").fadeOut(500).fadeIn(500).fadeOut(500).fadeIn(500);
 
-            // Update "Better Team" column dynamically
-            betterTeamCell.text(bestCell.index() === 1 ? "Red Bull Racing" : "Mercedes");
-        }
+        // Get teams names from template
+        let team1 = "{{ team1.tname | default('Team 1') }}";
+        let team2 = "{{ team2.tname | default('Team 2') }}";
+
+        // Highlight the Best Performer
+        $("tbody tr").each(function () {
+            let row = $(this);
+            let cells = row.find("td");
+            let attributeName = cells.eq(0).text().trim(); // First column (attribute name)
+            let bestPerformerCell = cells.last(); // "Better Performer" column
+
+            let value1 = parseInt(cells.eq(1).text(), 10) || 0;
+            let value2 = parseInt(cells.eq(2).text(), 10) || 0;
+
+            // Highlight logic: Age (lower is better), everything else (higher is better)
+            let bestValue = attributeName === "Age" ? Math.min(value1, value2) : Math.max(value1, value2);
+            let bestCell = null;
+
+            if (value1 !== value2) { // If values are different, highlight the better one
+                bestCell = (bestValue === value1) ? cells.eq(1) : cells.eq(2);
+                bestCell.css({ "background-color": "#d4f4d4", "font-weight": "bold" });
+
+                // Update "Better Performer" column
+                bestPerformerCell.text(bestCell.index() === 1 ? team1 : team2);
+            } else {
+                bestPerformerCell.text("Equal Performance");
+            }
+        });
+
+        // Determine Overall Best Performer (Based on "Race Wins")
+        let team1Wins = parseInt($("tbody tr:contains('Race Wins') td:eq(1)").text(), 10) || 0;
+        let team2Wins = parseInt($("tbody tr:contains('Race Wins') td:eq(2)").text(), 10) || 0;
+        let bestPerformer = (team1Wins > team2Wins) ? team1 : team2;
+
+        // Update Conclusion Section Dynamically
+        $(".conclusion p").html(`<span class="highlight-text">${bestPerformer}</span> has superior stats overall.`);
     });
-
-    //Determine Overall Best Team Based on Key Stats
-    let redBullWins = parseInt($("tbody tr:contains('Race Wins') td:eq(1)").text(), 10);
-    let mercedesWins = parseInt($("tbody tr:contains('Race Wins') td:eq(2)").text(), 10);
-    let redBullTitles = parseInt($("tbody tr:contains('Constructor Titles') td:eq(1)").text(), 10);
-    let mercedesTitles = parseInt($("tbody tr:contains('Constructor Titles') td:eq(2)").text(), 10);
-    let redBullPoles = parseInt($("tbody tr:contains('Total Pole Positions') td:eq(1)").text(), 10);
-    let mercedesPoles = parseInt($("tbody tr:contains('Total Pole Positions') td:eq(2)").text(), 10);
-
-    // Calculate total score based on key attributes
-    let redBullScore = redBullWins + redBullTitles + redBullPoles;
-    let mercedesScore = mercedesWins + mercedesTitles + mercedesPoles;
-
-    let overallBestTeam = (mercedesScore > redBullScore) ? "Mercedes" : "Red Bull Racing";
-
-    //Update Conclusion Section with Overall Best Team
-    $(".conclusion p").html(`<span class="highlight-text">${overallBestTeam}</span> has superior overall stats.`);
-});
 
 </script>
 </html>

@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>F1 Stats</title>
-    <link rel="stylesheet" href="/static/fPage.css">
+    <link rel="stylesheet" href="/static/frontPage.css">
     <script defer src="/static/auth.js"></script>
     <!-- <script type="module" defer src="/static/firebase-login.js"></script> -->
 </head>
 <body>
     <header>
-        <div class="logo">Logo</div>
+        <div class="logo"><a href="/" style="text-decoration: none;color: #fff;">Logo</a></div>
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/drivers-page">Drivers</a></li>
                 <li><a href="/teams">Teams</a></li>
                 <!-- <li><a href="#">Comparison</a></li> -->
-                <li><a href="/login" id="auth-button">Login</a></li>
+                <li><a href="/login" id="auth-button" style="color: #007bff;">Login</a></li>
             </ul>
         </nav>
     </header>
@@ -28,7 +28,7 @@
             <h1>Track, compare, and explore F1 drivers and teams with real-time stats</h1>
             <div class="buttons">
                 <button id="driversBtn"><a href="/drivers-page">Drivers</a></button>
-                <button id="teamsBtn">Teams</button>
+                <button id="teamsBtn"><a href="/teams">Teams</a></button>
             </div>
         </div>
     </section>

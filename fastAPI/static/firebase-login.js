@@ -23,7 +23,6 @@ const firebaseConfig = {
   appId: "1:770273801116:web:afa4ebd5b6b232a0d14e59"
 };
 
-
 // Initialize Firebase
 let app, auth, db;
 
@@ -69,7 +68,7 @@ document.getElementById("sign-up").addEventListener("click", () => {
 
   console.log(email, password);
 
-  const API_KEY = "AIzaSyAKKq2CMmRLA44v-YmCedQxYViSXr80rDI"; // Update this
+  const API_KEY = "AIzaSyASL8YOQOAPKZqgFP9J4o4vvmJoGCkzHzE"; // Update this
   fetch(
     `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
     {

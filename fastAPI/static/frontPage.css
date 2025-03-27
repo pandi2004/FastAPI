@@ -7,7 +7,7 @@
 
 body {
   color: white;
-  background: url('https://storage.googleapis.com/fastapi-bucket-19c47/images/homebackground.jpg') no-repeat center center/cover;
+  background: url('https://s3-alpha-sig.figma.com/img/ca9c/1495/f53eaefce06893bf397053cc5e928d24?Expires=1743984000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=WeTqvyuDZ2yFM3N9Ce9Hx4dpDS5-Sp6l9KpQ8l5~2E7GkWje1HjBy-Y8CfFebjxMov6Yxls6EioK~e52b-wN83i4jIiNJTIub5cUCiYCNnT6cCDuSdrJlz3lTeoQ2EftvWI07R3LDaa-SMFkCa5C5XdkPPd91QKg852VuLfT0qWIzGuSXm0zNYpeSbo1Y8eqnv6q4YOLMAzq0Iw5AniKZCUf6czKSdbOMwybzHHssvguGsVK8bAw8hP-knxJ1~fGmz1kRrKu6lWTtiYATBVh301mAomfgHyhnph93flE7oX2~yCgkZU0xJpC8a61Q6WvvU8dxZo2L~PtcuBF15GtEw__') no-repeat center center/cover;
 }
 
 header {
@@ -40,7 +40,7 @@ nav ul li {
 
 nav ul li a {
   text-decoration: none;
-  color: white;
+  color: #007bff;
   font-size: 16px;
   cursor: pointer;
 }

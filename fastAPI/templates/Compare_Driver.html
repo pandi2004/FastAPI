@@ -11,20 +11,20 @@
 </head>
 
 <body>
-    <header>
-        <div class="logo">Logo</div>
+    <header >
+        <div class="logo"><a href="/" style="text-decoration: none;color: #fff;">Logo</a></div>
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/drivers-page">Drivers</a></li>
                 <li><a href="/teams">Teams</a></li>
                 <!-- <li><a href="#">Comparison</a></li> -->
-                <li><a href="/login" id="auth-button">Login</a></li>
+                <li><a href="/login" id="auth-button" style="color: #007bff">Login</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
+    <div class="container">
         <h1 class="heading">Stats</h1>
         <table>
             <thead>
@@ -92,39 +92,6 @@
     </main>
 </body>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let compareBtn = document.getElementById("compare-btn");
-        let checkboxes = document.querySelectorAll(".compare-checkbox");
-
-        checkboxes.forEach((checkbox) => {
-            checkbox.addEventListener("change", function () {
-                let selectedDrivers = Array.from(document.querySelectorAll(".compare-checkbox:checked"));
-
-                if (selectedDrivers.length === 2) {
-                    compareBtn.disabled = false;
-                    checkboxes.forEach(cb => {
-                        if (!cb.checked) cb.disabled = true;
-                    });
-                } else {
-                    compareBtn.disabled = true;
-                    checkboxes.forEach(cb => cb.disabled = false);
-                }
-            });
-        });
-
-        compareBtn.addEventListener("click", function () {
-            let selectedDrivers = Array.from(document.querySelectorAll(".compare-checkbox:checked"))
-                .map(cb => cb.getAttribute("data-driver-id"));
-
-            if (selectedDrivers.length === 2) {
-                let driver1 = encodeURIComponent(selectedDrivers[0]);
-                let driver2 = encodeURIComponent(selectedDrivers[1]);
-                window.location.href = `/compare-drivers?driver1=${driver1}&driver2=${driver2}`;
-            } else {
-                alert("❌ Please select exactly 2 drivers to compare.");
-            }
-        });
-    });
 
     // Ensure jQuery runs after the page loads
     $(document).ready(function () {
