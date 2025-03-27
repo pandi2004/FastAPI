@@ -26,13 +26,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"C:/Users/gamin/Downloads/gcloud-key.json"
 # Initialize Google Cloud Storage
+
+
 storage_client = storage.Client()
-bucket_name = "fastapi-bucket-19c47"  # Replace with your actual bucket name
+bucket_name = "fastapi-bucket-19c47"  
 bucket = storage_client.bucket(bucket_name)
 
 # service_account_path = r"dfsdfd-b738c-firebase-adminsdk-fbsvc-d7e2f0c9f9.json"
 # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = service_account_path
+
+
 
 # Set your Google Cloud Project ID manually
 PROJECT_ID = "fastapiproject-19c47"  # Replace with your actual Project ID
@@ -50,35 +55,6 @@ db = firestore.Client(project=PROJECT_ID)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-# @app.post("/upload/")
-# async def upload_file(file: UploadFile = File(...)):
-#     """Uploads a file to Google Cloud Storage and returns the public URL."""
-#     try:
-#         # Read file content
-#         file_path = f"uploads/{file.filename}"
-#         with open(file_path, "wb") as buffer:
-#             shutil.copyfileobj(file.file, buffer)
-
-#         # Upload to Google Cloud Storage
-#         blob = bucket.blob(file.filename)
-#         blob.upload_from_filename(file_path)
-#         blob.make_public()  # Make file publicly accessible
-
-#         return {"message": "File uploaded successfully!", "file_url": blob.public_url}
-
-#     except Exception as e:
-#         return {"error": f"Upload failed: {str(e)}"}
-    
-
-#     @app.get("/get-file/{file_name}")
-# async def get_file(file_name: str):
-#     """Returns the public URL of a file stored in Google Cloud Storage."""
-#     blob = bucket.blob(file_name)
-
-#     if not blob.exists():
-#         return {"error": "File not found"}
-
-#     return {"file_url": blob.public_url}
 
 
 # ✅ Verify Firebase Token using Google's API
@@ -101,11 +77,15 @@ async def root(request: Request):
 async def root(request: Request):
     return templates.TemplateResponse("driver_Profile.html", {"request": request})
 
+@app.get("/team-profile", response_class=HTMLResponse)
+async def root(request: Request):
+    return templates.TemplateResponse("Team_Profile.html", {"request": request})
+
 # ✅ Render Login Page
 @app.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request, token: Optional[str] = Query(None)):
     user_token = verify_firebase_token(token) if token else None
-    return templates.TemplateResponse("login.html", {"request": request, "user_token": user_token})
+    return templates.TemplateResponse("lg.html", {"request": request, "user_token": user_token})
 
 # # Page Rendering Route (Returns `drivers.html`)
 # @app.get("/drivers-page")
@@ -165,22 +145,95 @@ async def login_page(request: Request, token: Optional[str] = Query(None)):
 #         "driver": driver_doc.to_dict(),
 #         "user_token": user_token,
 #     })
+####################################automated gcs#########
+# File details
+# source_file_url = "https://s3-alpha-sig.figma.com/img/ca9c/1495/f53eaefce06893bf397053cc5e928d24?Expires=1743984000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=WeTqvyuDZ2yFM3N9Ce9Hx4dpDS5-Sp6l9KpQ8l5~2E7GkWje1HjBy-Y8CfFebjxMov6Yxls6EioK~e52b-wN83i4jIiNJTIub5cUCiYCNnT6cCDuSdrJlz3lTeoQ2EftvWI07R3LDaa-SMFkCa5C5XdkPPd91QKg852VuLfT0qWIzGuSXm0zNYpeSbo1Y8eqnv6q4YOLMAzq0Iw5AniKZCUf6czKSdbOMwybzHHssvguGsVK8bAw8hP-knxJ1~fGmz1kRrKu6lWTtiYATBVh301mAomfgHyhnph93flE7oX2~yCgkZU0xJpC8a61Q6WvvU8dxZo2L~PtcuBF15GtEw__"
+# destination_blob_name = "images/homebackground.jpg"  # Change to your desired file name
+
+# # Download image from URL
+# import requests
+# response = requests.get(source_file_url)
+
+# if response.status_code == 200:
+#     with open("homebackground.jpg", "wb") as img_file:
+#         img_file.write(response.content)
+
+#     # Upload to GCS
+#     blob = bucket.blob(destination_blob_name)
+#     blob.upload_from_filename("homebackground.jpg")
+#     # blob.make_public() 
+#      # Make it publicly accessible
+
+#     print(f" Image uploaded successfully! Public URL: {blob.public_url}")
+
+# else:
+#     print(" Failed to download image from URL")
 
 
-# ✅ Get Team Profile
-@app.get("/team/{team_name}", response_class=HTMLResponse)
-async def team_profile(request: Request, team_name: str, token: Optional[str] = Query(None)):
-    user_token = verify_firebase_token(token) if token else None
-    team_doc = db.collection("teams").document(team_name).get()
+##############################below for cloud api bob#########################
 
-    if not team_doc.exists:
-        raise HTTPException(status_code=404, detail="Team not found")
 
-    return templates.TemplateResponse("team_profile.html", {
-        "request": request,
-        "team": team_doc.to_dict(),
-        "user_token": user_token,
-    })
+# @app.post("/upload/")
+# async def upload_file(file: UploadFile = File(...)):
+#     """Uploads a file to Google Cloud Storage and returns the public URL."""
+#     try:
+#         # Read file content
+#         file_path = f"uploads/{file.filename}"
+#         with open(file_path, "wb") as buffer:
+#             shutil.copyfileobj(file.file, buffer)
+
+#         # Upload to Google Cloud Storage
+#         blob = bucket.blob(file.filename)
+#         blob.upload_from_filename(file_path)
+#         blob.make_public()  # Make file publicly accessible
+
+#         return {"message": "File uploaded successfully!", "file_url": blob.public_url}
+
+#     except Exception as e:
+#         return {"error": f"Upload failed: {str(e)}"}
+    
+
+#     @app.get("/get-file/{file_name}")
+# async def get_file(file_name: str):
+#     """Returns the public URL of a file stored in Google Cloud Storage."""
+#     blob = bucket.blob(file_name)
+
+#     if not blob.exists():
+#         return {"error": "File not found"}
+
+#     return {"file_url": blob.public_url}
+# from google.cloud import storage
+
+# def upload_to_gcs(bucket_name, source_file_path, destination_blob_name):
+#     """Uploads a file to Google Cloud Storage."""
+#     client = storage.Client()
+#     bucket = client.bucket(bucket_name)
+#     blob = bucket.blob(destination_blob_name)
+    
+#     blob.upload_from_filename(source_file_path)
+#     print(f"File {source_file_path} uploaded to {bucket_name}/{destination_blob_name}")
+
+# # Example usage
+# upload_to_gcs("fastapiproject-19c47.appspot.com", "localfile.txt", "uploaded/localfile.txt")
+
+
+
+##############################above for cloud bob#########################
+
+# # ✅ Get Team Profile
+# @app.get("/team/{team_name}", response_class=HTMLResponse)
+# async def team_profile(request: Request, team_name: str, token: Optional[str] = Query(None)):
+#     user_token = verify_firebase_token(token) if token else None
+#     team_doc = db.collection("teams").document(team_name).get()
+
+#     if not team_doc.exists:
+#         raise HTTPException(status_code=404, detail="Team not found")
+
+#     return templates.TemplateResponse("team_profile.html", {
+#         "request": request,
+#         "team": team_doc.to_dict(),
+#         "user_token": user_token,
+#     })
 
 
 @app.get("/compare-drivers", response_class=HTMLResponse)
@@ -377,15 +430,15 @@ async def add_driver(
 #--------------------------------------
 @app.get("/driver/{driverName}", response_class=JSONResponse)
 async def get_driver(driverName: str):
-    print(f"🔍 Checking Firestore for driver: {driverName}")  # Debugging
+    print(f"Checking Firestore for driver: {driverName}")  # Debugging
 
     driver_ref = db.collection("Drivers").document(driverName).get()
 
     if not driver_ref.exists:
-        print(f"❌ Driver {driverName} not found in Firestore")  # Debugging
+        print(f"Driver {driverName} not found in Firestore")  # Debugging
         raise HTTPException(status_code=404, detail="Driver not found")
 
-    print(f"✅ Found Driver: {driver_ref.to_dict()}")  # Debugging
+    print(f"Found Driver: {driver_ref.to_dict()}")  # Debugging
     return driver_ref.to_dict()
 
 # Mock Driver Database
@@ -432,11 +485,23 @@ async def all_drivers(request: Request, token: Optional[str] = Cookie(None)):
     user_token = verify_firebase_token(token) if token else None
     driver_docs = db.collection("Drivers").stream()
     drivers = [doc.to_dict() for doc in driver_docs]
-    print("Loading template: Drivers1.html")  # Debug print
-    return templates.TemplateResponse("Drivers.html", {
+    print("Loading template: Drives1.html")  # Debug print
+    return templates.TemplateResponse("Drivers1.html", {
         "request": request,
         "user_token": user_token,
         "drivers": drivers,
+    })
+
+@app.get("/teams", response_class=HTMLResponse)
+async def all_drivers(request: Request, token: Optional[str] = Cookie(None)):
+    user_token = verify_firebase_token(token) if token else None
+    team_docs = db.collection("Teams").stream()
+    teams = [doc.to_dict() for doc in team_docs]
+    print("Loading template: Teams.html")  # Debug print
+    return templates.TemplateResponse("Teams.html", {
+        "request": request,
+        "user_token": user_token,
+        "teams": teams,
     })
 
 @app.delete("/driver/{driver_name}")
@@ -458,36 +523,70 @@ async def delete_driver(driver_name: str, token: Optional[str] = Cookie(None)):
 
 
 
+# teams------------------------
 
+@app.post("/add-team")
+async def add_team(
+    request: Request,
+    token: Optional[str] = Cookie(None),  # 🔥 Get token from cookies
+    tname: str = Form(...),
+    tId: str = Form(...),
+    pole_position: int = Form(...),
+    founded: int = Form(...),
+    race_wins: int = Form(...),
+    country_titles: int = Form(...),
+    world_championships: int = Form(...),
+    tPrincipal:str=Form(...),
+    engineSupplier: str=Form(...),
+    tCEO: str=Form(...)
+):
+    """Handles adding or updating team profiles."""
 
+    # 🔥 Validate Firebase token
+    if not token:
+        return JSONResponse(status_code=401, content={"error": "Token missing. Please log in."})
 
-#########################################################
+    user_token = verify_firebase_token(token)
+    if not user_token:
+        return JSONResponse(status_code=401, content={"error": "Unauthorized user."})
 
-# ✅ Verify Firebase Token using Google's API
-def verify_firebase_token(token: str):
+    # 🔥 Validate tId format
+    if not re.match(r"^[a-zA-Z0-9_-]+$", tId):
+        return JSONResponse(status_code=400, content={"error": "Team ID must be alphanumeric."})
+
     try:
-        request_adapter = google.auth.transport.requests.Request()
-        decoded_token = google.oauth2.id_token.verify_firebase_token(token, request_adapter)
-        return decoded_token  # Return user details if valid
+        team_ref = db.collection("Teams").document(tname)
+        team_exists = team_ref.get().exists  # Check if team exists
+
+        team_data = {
+            "tname": tname,
+            "tId":tId,
+            "pole_position": pole_position,
+            "founded": founded,
+            "race_wins": race_wins,
+            "country_titles": country_titles,
+            "world_championships": world_championships,
+            "engineSupplier":engineSupplier,
+            "tPrincipal":tPrincipal,
+            "tCEO":tCEO
+        }
+
+        if team_exists:
+            team_ref.update(team_data)
+            message = "Team profile updated successfully!"
+        else:
+            team_ref.set({"tId": tId, **team_data})
+            message = "Team profile created successfully!"
+
+        # 🔥 Return JSON response for AJAX requests
+        if request.headers.get("x-requested-with") == "XMLHttpRequest":
+            return JSONResponse(content={"message": message})
+
+        return RedirectResponse(url="/teams", status_code=302)
+
     except Exception as e:
-        print("Token verification failed:", str(e))
-        return None  # Return None if invalid
-
-# ✅ Render the Teams Page with Dynamic Team Names
-@app.get("/teams-page", response_class=HTMLResponse)
-async def all_teams(request: Request, token: Optional[str] = Cookie(None)):
-    user_token = verify_firebase_token(token) if token else None
-    team_docs = db.collection("Teams").stream()
-    
-    teams = [doc.to_dict() for doc in team_docs]  # Extract full team data
-    team_names = [doc.id for doc in db.collection("Teams").stream()]  # Extract only team names (Firestore document IDs)
-
-    return templates.TemplateResponse("Teams.html", {
-        "request": request,
-        "user_token": user_token,
-        "teams": teams,
-        "team_names": team_names,  # Send only team names for dropdown
-    })
+        return JSONResponse(status_code=500, content={"error": f"Server error: {str(e)}"})
+################################## filter onprogress##################################################
 
 # ✅ Get Attributes for a Selected Team
 @app.get("/get-team-attributes/{team_name}", response_class=JSONResponse)
@@ -529,120 +628,89 @@ async def filter_teams(
 
     return JSONResponse(content={"teams": filtered_teams})
 
+########################################################################################
 
+@app.get("/team/{teamName}", response_class=JSONResponse)
+async def get_team(teamName: str):
+    teamName = teamName.strip()  # optional
+    print(f"Checking Firestore for team: {teamName}")  # Debugging
 
-@app.get("/team-profile", response_class=HTMLResponse)
-async def root(request: Request):
-    return templates.TemplateResponse("Team_Profile.html", {"request": request})
+    team_doc = db.collection("Teams").document(teamName).get()
 
-# ✅ DELETE endpoint to remove a team by name
-@app.delete("/team/{team_name}")
-async def delete_team(team_name: str, token: Optional[str] = Query(None)):
-    # Verify token; user must be logged in
-    user_token = verify_firebase_token(token) if token else None
-    if not user_token:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-
-    team_ref = db.collection("Teams").document(team_name)
-    team_doc = team_ref.get()
     if not team_doc.exists:
+        print(f"Team {teamName} not found in Firestore")  # Debugging
         raise HTTPException(status_code=404, detail="Team not found")
 
-    team_ref.delete()
-    return JSONResponse(content={"message": f"Team '{team_name}' deleted successfully"})
+    team_data = team_doc.to_dict()
+    print(f"Found Team: {team_data}")  # Debugging
+    return team_data
 
+from fastapi import Request
 
-
-
-
-
-
-
-@app.post("/add-team")
-async def add_driver(
+@app.delete("/team/{team_name}")
+async def delete_team(
+    team_name: str,
     request: Request,
-    token: Optional[str] = Cookie(None),  # 🔥 Get token from cookies
-    full_name: str = Form(...),
-    team_id: str = Form(...),
-    pole_position: int = Form(...),
-    language: str = Form(...),
-    age: int = Form(...),
-    race_wins: int = Form(...),
-    country_titles: int = Form(...),
-    team: str = Form(...),
-    date_of_birth: str = Form(...),
-    nationality: str = Form(...),
-    father: str = Form(...),
-    mother: str = Form(...),
-    world_championships: int = Form(...),
-    total_fastest_laps: int = Form(...)
+    token: Optional[str] = Cookie(None)
 ):
-    """Handles adding or updating driver profiles."""
+    """Deletes a team document from Firestore if authorized."""
 
-    # 🔥 Validate Firebase token
+    # 🔥 Verify Firebase Token
     if not token:
-        return JSONResponse(status_code=401, content={"error": "Token missing. Please log in."})
+        raise HTTPException(status_code=401, detail="Token missing. Please log in.")
 
     user_token = verify_firebase_token(token)
     if not user_token:
-        return JSONResponse(status_code=401, content={"error": "Unauthorized user."})
-
-    # 🔥 Validate team_id format
-    if not re.match(r"^[a-zA-Z0-9_-]+$", team_id):
-        return JSONResponse(status_code=400, content={"error": "Team ID must be alphanumeric."})
+        raise HTTPException(status_code=401, detail="Unauthorized")
 
     try:
-        team_ref = db.collection("Teams").document(full_name)
-        team_exists = team_ref.get().exists  # Check if driver exists
+        # 🔥 Check if team exists
+        team_ref = db.collection("Teams").document(team_name)
+        team_doc = team_ref.get()
 
-        driver_data = {
-            "full_name": full_name,
-            "pole_position": pole_position,
-            "language": language,
-            "age": age,
-            "race_wins": race_wins,
-            "country_titles": country_titles,
-            "team": team,
-            "date_of_birth": date_of_birth,
-            "nationality": nationality,
-            "father": father,
-            "mother": mother,
-            "world_championships": world_championships,
-            "total_fastest_laps": total_fastest_laps,
-        }
+        if not team_doc.exists:
+            raise HTTPException(status_code=404, detail=f"Team '{team_name}' not found")
 
-        if team_exists:
-            team_ref.update(team_data)
-            message = "Driver profile updated successfully!"
-        else:
-            team_ref.set({"driver_id": team_id, **team_data})
-            message = "Driver profile created successfully!"
+        # 🔥 Delete team
+        team_ref.delete()
 
-        # 🔥 Return JSON response for AJAX requests
+        # 🔥 Return JSON for AJAX requests
         if request.headers.get("x-requested-with") == "XMLHttpRequest":
-            return JSONResponse(content={"message": message})
+            return JSONResponse(content={"message": f"Team '{team_name}' deleted successfully"})
 
-        return RedirectResponse(url="/teams-page", status_code=302)
+        # 🔥 If normal request
+        return RedirectResponse(url="/teams", status_code=302)
 
     except Exception as e:
-        return JSONResponse(status_code=500, content={"error": f"Server error: {str(e)}"})
+        raise HTTPException(status_code=500, detail=f"Error deleting team: {str(e)}")
 
-#--------------------------------------
-@app.get("/team/{driverName}", response_class=JSONResponse)
-async def get_driver(driverName: str):
-    print(f"🔍 Checking Firestore for team: {driverName}")  # Debugging
+@app.get("/compare-teams", response_class=HTMLResponse)
+async def compare_teams(request: Request, team1: str = Query(...), team2: str = Query(...)):
+    """Compare two teams based on statistics."""
+    team_doc1 = db.collection("Teams").document(team1).get()
+    team_doc2 = db.collection("Teams").document(team2).get()
 
-    driver_ref = db.collection("Teams").document(driverName).get()
+    if not team_doc1.exists or not team_doc2.exists:
+        raise HTTPException(status_code=404, detail="One or both teams not found")
 
-    if not driver_ref.exists:
-        print(f"❌ Team {driverName} not found in Firestore")  # Debugging
-        raise HTTPException(status_code=404, detail="Team not found")
+    t1 = team_doc1.to_dict()
+    t2 = team_doc2.to_dict()
 
-    print(f"✅ Found Team: {driver_ref.to_dict()}")  # Debugging
-    return driver_ref.to_dict()
+    stats = ["founded", "pole_position", "race_wins", "world_championships"]
+    
+    comparison = {}
+    for stat in stats:
+        val1 = t1.get(stat, 0)
+        val2 = t2.get(stat, 0)
+        better = team1 if val1 < val2 and stat == "founded" else team1 if val1 > val2 else team2
+        comparison[stat] = {"team1": val1, "team2": val2, "better": better}
 
-########################################################
-
+    return templates.TemplateResponse("Compare_Team.html", {
+        "request": request,
+        "comparison": comparison,
+        "team1": t1,
+        "team2": t2
+    })
 
 if __name__ == "__main__":
     import uvicorn

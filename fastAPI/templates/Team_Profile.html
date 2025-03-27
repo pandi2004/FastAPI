@@ -1,175 +1,298 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Team Profile</title>
-    <link rel="stylesheet" href="Team_Profile.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/Team_Profile.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
+    <script type="module" defer src="/static/auth.js"></script>
+  </head>
+  <body>
     <header>
-        <div class="logo">Logo</div>
-        <nav>
-            <a href="#">Drivers</a>
-            <a href="#">Teams</a>
-            <a href="#">Comparison</a>
-            <a href="#" class="logout">Logout</a>
-        </nav>
+      <div class="logo">Logo</div>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/drivers-page">Drivers</a></li>
+          <li><a href="/teams">Teams</a></li>
+          <!-- <li><a href="#">Comparison</a></li> -->
+          <li><a href="/login" id="auth-button">Login</a></li>
+        </ul>
+      </nav>
     </header>
 
-    <section class="hero">
-        <div class="overlay"></div>
-        <div class="profile">
-            <img src="team-image.jpg" alt="Team Image" class="profile-pic">
-            <h1>RED BULL RACING</h1>
-            <p>SINCE 2019</p>
-        </div>
+    <!-- Profile Header -->
+    <section class="profileContainer" style="height: 50%">
+      <img
+        src="https://images.pexels.com/photos/10807493/pexels-photo-10807493.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200"
+        alt="Team Background"
+        style="width: 100%; height: 100%; object-fit: contain"
+      />
+      <!-- <div class="absolute top-40 left-1/2 transform -translate-x-1/2 text-center">
+             <img src="https://source.unsplash.com/150x150/?portrait,man" alt="Team" class="rounded-full border-4 border-white mx-auto">
+                <h1 class="text-2xl font-bold mt-3">MAX EMILIAN VERSTAPPEN</h1>
+                <h2 class="text-blue-500 font-semibold">RED BULL RACING</h2> 
+        </div> -->
     </section>
 
-    <section class="info-container">
+    <form style="padding: 20px" id="addTeamForm">
+      <section class="info-container">
         <div class="info-box">
-            <label>Team Name</label>
-            <input type="text" placeholder="Your First Name">
+          <label for="tname">Team Name</label>
+          <input
+            id="tname"
+            name="tname"
+            type="text"
+            placeholder="Enter Team Name"
+          />
         </div>
         <div class="info-box">
-            <label>Enter Year Found</label>
-            <input type="text" value="24" >
+          <label for="founded">Enter Year Found</label>
+          <input id="founded" name="founded" type="number" />
         </div>
         <div class="info-box">
-            <label>Team Id</label>
-            <input type="text" placeholder="Enter Driver ID">
+          <label for="tId">Team Id</label>
+          <input id="tId" name="tId" type="text" placeholder="Enter Team ID" />
         </div>
         <div class="info-box">
-            <label>Country Titles</label>
-            <input type="text" value="42" >
+          <label for="country_titles">Country Titles</label>
+          <input id="country_titles" name="country_titles" type="number" />
         </div>
         <div class="info-box">
-            <label>Pole Position</label>
-            <input type="text" value="044">
+          <label for="pole_position">Pole Position</label>
+          <input id="pole_position" name="pole_position" type="number" />
         </div>
         <div class="info-box">
-            <label>Team Principal</label>
-            <input type="text" value="Christian Horner" >
+          <label for="tPrincipal">Team Principal</label>
+          <input id="tPrincipal" name="tPrincipal" type="text" />
         </div>
         <div class="info-box">
-            <label>Engine Supplier</label>
-            <input type="text" value="Honda RBPT" >
+          <label for="engineSupplier">Engine Supplier</label>
+          <input id="engineSupplier" name="engineSupplier" type="text" />
         </div>
         <div class="info-box">
-            <label>CEO</label>
-            <input type="text" value="Oliver Mintzlaff" >
-        </div>
-    </section>
-
-    <section class="achievements">
-        <h2>Achievements</h2>
-        <a href="#" class="add-description">+ Add description</a>
-
-        <div class="achievement-card">
-            <h3>Historic Milestones</h3>
-            <p>First F1 race win: 2009 Chinese Grand Prix (Sebastian Vettel)</p>
-            <p>Dominated F1 from 2010-2013, winning 4 consecutive titles with Vettel</p>
-            <p>Max Verstappen won 19 out of 22 races in 2023, the most dominant season ever</p>
-            <a href="#" class="edit">Edit</a>
+          <label for="tCEO">CEO</label>
+          <input id="tCEO" name="tCEO" type="text" />
         </div>
 
-        <div class="achievement-card">
-            <h3>Era of Dominance</h3>
-            <p><strong>2010–2013 (Sebastian Vettel Era)</strong></p>
-            <p>4 consecutive championships</p>
-            <p>Fastest development under Adrian Newey’s car designs</p>
-            <a href="#" class="edit">Edit</a>
+        <div class="info-box">
+          <label for="world_championships"> World Championships</label>
+          <input
+            id="world_championships"
+            name="world_championships"
+            type="number"
+          />
         </div>
-    </section>
 
-    <button class="edit-button">EDIT</button>
+        <div class="info-box">
+          <label for="race_wins"> Wins</label>
+          <input id="race_wins" name="race_wins" type="number" />
+        </div>
+      </section>
 
-</body>
-<script>
-    $(document).ready(function(){
-    // Show input form on clicking "Add Description"
-    $(".add-description").click(function(e) {
-        e.preventDefault();
-        $(this).hide();
-        $(".achievements").append(`
-            <div class='description-form'>
-                <label>Description Heading</label>
-                <input type='text' id='desc-heading' placeholder='Enter Heading'>
-                <label>Description Value</label>
-                <textarea id='desc-value' placeholder='Enter Description'></textarea>
-                <button class='save-description'>Save</button>
+      <!-- <section class="achievements">
+            <h2>Achievements</h2>
+            <a href="#" class="add-description">+ Add description</a>
+    
+            <div class="achievement-card">
+                <h3>Historic Milestones</h3>
+                <p>First F1 race win: 2009 Chinese Grand Prix (Sebastian Vettel)</p>
+                <p>Dominated F1 from 2010-2013, winning 4 consecutive titles with Vettel</p>
+                <p>Max Verstappen won 19 out of 22 races in 2023, the most dominant season ever</p>
+                <a href="#" class="edit">Edit</a>
             </div>
-        `);
-    });
     
-    // Save new description
-    $(document).on("click", ".save-description", function() {
-        let heading = $("#desc-heading").val();
-        let description = $("#desc-value").val();
-        
-        if (heading && description) {
-            $(".achievements").append(`
-                <div class='achievement-card'>
-                    <h3>${heading}</h3>
-                    <p>${description}</p>
-                    <a href='#' class='edit'>Edit</a>
-                </div>
-            `);
-            $(".description-form").remove();
-            $(".add-description").show();
-        }
-    });
-    
-    // Enable Editing Fields
-    $(".edit-button").click(function() {
-        $(".info-box input").prop("disabled", false);
-    });
-    
-    // API Call to Save Edits
-    $(".edit-button").click(function() {
-        let profileData = {};
-        
-        $(".info-box").each(function() {
-            let label = $(this).find("label").text().trim();
-            let value = $(this).find("input").val();
-            profileData[label] = value;
-        });
+            <div class="achievement-card">
+                <h3>Era of Dominance</h3>
+                <p><strong>2010–2013 (Sebastian Vettel Era)</strong></p>
+                <p>4 consecutive championships</p>
+                <p>Fastest development under Adrian Newey’s car designs</p>
+                <a href="#" class="edit">Edit</a>
+            </div>
+        </section> -->
 
-        $.ajax({
-            url: "/api/updateProfile",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(profileData),
-            success: function(response) {
-                alert("Profile updated successfully!");
-                $(".info-box input").prop("disabled", true);
-            },
-            error: function() {
-                alert("Error updating profile.");
+      <button id="add-team-btn" type="submit" class="edit-button">Add</button>
+    </form>
+  </body>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let urlParams = new URLSearchParams(window.location.search);
+      let teamName = urlParams.get("teamName");
+      console.log("Extracted Team Name:", teamName);
+
+      if (teamName) {
+        // Editing an existing Team
+        alert("Other then Name Field, You can edit other fields.");
+        document.getElementById("add-team-btn").textContent = "Edit Team";
+
+        // Fetch Team details and populate form
+        fetch(`/team/${teamName}`)
+          .then((response) => response.json())
+          .then((team) => {
+            if (team.error) {
+              console.error("Error fetching team:", team.error);
+              return;
             }
+
+            // Populate form fields
+            document.getElementById("tname").value = team.tname || "";
+            document.getElementById("tId").value = team.tId || "";
+            document.getElementById("pole_position").value = team.pole_position || "";
+            document.getElementById("founded").value = team.founded || "";
+            document.getElementById("race_wins").value = team.race_wins || "";
+            document.getElementById("country_titles").value = team.country_titles || "";
+            document.getElementById("world_championships").value = team.world_championships || "";
+            document.getElementById("engineSupplier").value = team.engineSupplier || "";
+            document.getElementById("tCEO").value = team.tCEO || "";
+            document.getElementById("tPrincipal").value = team.tPrincipal || "";
+            // Make full name field readonly
+            document.getElementById("tname").readOnly = true;
+          })
+          .catch((error) => console.error("Error fetching team data:", error));
+      } else {
+        alert(
+          "Don't Enter the exiting Team Name, If done so the team profile will get updated"
+        );
+      }
+
+      let addButton = document.getElementById("add-team-btn");
+      let teamForm = document.getElementById("addTeamForm");
+
+      if (addButton && teamForm) {
+        teamForm.addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent page refresh
+
+          let token = getCookie("token"); // Get token from cookies
+          if (!token) {
+            alert("You must be logged in to add a Team.");
+            return;
+          }
+
+          let formData = new FormData(teamForm);
+          formData.append("token", token); // Add token manually
+
+          fetch("/add-team", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => {
+              if (response.redirected) {
+                alert(`Team Profile ${teamName?"Edited":"Created"} Successfully!`);
+                window.location.href = "/teams"; // Redirect after alert
+              } else {
+                return response.json();
+              }
+            })
+            .then((data) => {
+              if (data && data.detail) {
+                alert("Error: " + data.detail[0].msg);
+              }
+            })
+            .catch((error) => {
+              console.error("Error adding Team:", error);
+              alert(" Something went wrong. Please try again.");
+            });
         });
+      } else {
+        console.error("ERROR: Add Team button or form not found. Check ID.");
+      }
     });
 
-    // Handle Missing Profile
-    function checkProfileExists() {
-        $.ajax({
-            url: "/api/getProfile",
-            type: "GET",
-            success: function(profile) {
-                if (!profile) {
-                    $(".info-container").html("<button class='add-profile'>+ Add Profile</button>");
-                }
-            }
-        });
+    // Function to get the token from cookies
+    function getCookie(name) {
+      let cookies = document.cookie.split("; ");
+      for (let cookie of cookies) {
+        let [key, value] = cookie.split("=");
+        if (key === name) return value;
+      }
+      return "";
     }
-    checkProfileExists();
 
-    // Add Profile Button
-    $(document).on("click", ".add-profile", function() {
-        $(".info-container").html("<p>Fill in the details and save</p>");
-    });
-});
+    //     $(document).ready(function(){
+    //     // Show input form on clicking "Add Description"
+    //     $(".add-description").click(function(e) {
+    //         e.preventDefault();
+    //         $(this).hide();
+    //         $(".achievements").append(`
+    //             <div class='description-form'>
+    //                 <label>Description Heading</label>
+    //                 <input type='text' id='desc-heading' placeholder='Enter Heading'>
+    //                 <label>Description Value</label>
+    //                 <textarea id='desc-value' placeholder='Enter Description'></textarea>
+    //                 <button class='save-description'>Save</button>
+    //             </div>
+    //         `);
+    //     });
 
-</script>
+    //     // Save new description
+    //     $(document).on("click", ".save-description", function() {
+    //         let heading = $("#desc-heading").val();
+    //         let description = $("#desc-value").val();
+
+    //         if (heading && description) {
+    //             $(".achievements").append(`
+    //                 <div class='achievement-card'>
+    //                     <h3>${heading}</h3>
+    //                     <p>${description}</p>
+    //                     <a href='#' class='edit'>Edit</a>
+    //                 </div>
+    //             `);
+    //             $(".description-form").remove();
+    //             $(".add-description").show();
+    //         }
+    //     });
+
+    //     // Enable Editing Fields
+    //     $(".edit-button").click(function() {
+    //         $(".info-box input").prop("disabled", false);
+    //     });
+
+    //     // API Call to Save Edits
+    //     $(".edit-button").click(function() {
+    //         let profileData = {};
+
+    //         $(".info-box").each(function() {
+    //             let label = $(this).find("label").text().trim();
+    //             let value = $(this).find("input").val();
+    //             profileData[label] = value;
+    //         });
+
+    //         $.ajax({
+    //             url: "/api/updateProfile",
+    //             type: "POST",
+    //             contentType: "application/json",
+    //             data: JSON.stringify(profileData),
+    //             success: function(response) {
+    //                 alert("Profile updated successfully!");
+    //                 $(".info-box input").prop("disabled", true);
+    //             },
+    //             error: function() {
+    //                 alert("Error updating profile.");
+    //             }
+    //         });
+    //     });
+
+    //     // Handle Missing Profile
+    //     function checkProfileExists() {
+    //         $.ajax({
+    //             url: "/api/getProfile",
+    //             type: "GET",
+    //             success: function(profile) {
+    //                 if (!profile) {
+    //                     $(".info-container").html("<button class='add-profile'>+ Add Profile</button>");
+    //                 }
+    //             }
+    //         });
+    //     }
+    //     checkProfileExists();
+
+    //     // Add Profile Button
+    //     $(document).on("click", ".add-profile", function() {
+    //         $(".info-container").html("<p>Fill in the details and save</p>");
+    //     });
+    // });
+  </script>
 </html>

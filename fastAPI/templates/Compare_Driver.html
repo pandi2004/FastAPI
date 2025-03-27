@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Driver Comparison</title>
     <link rel="stylesheet" href="/static/Compare_Driver.css">
+    <script type="module" defer src="/static/auth.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body>
 
+<body>
     <header>
         <div class="logo">Logo</div>
         <nav>
-            <a href="#">Drivers</a>
-            <a href="#">Teams</a>
-            <a href="#" class="active">Comparison</a>
-            <a href="#" class="logout">Logout</a>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/drivers-page">Drivers</a></li>
+                <li><a href="/teams">Teams</a></li>
+                <!-- <li><a href="#">Comparison</a></li> -->
+                <li><a href="/login" id="auth-button">Login</a></li>
+            </ul>
         </nav>
     </header>
 
@@ -25,52 +30,50 @@
             <thead>
                 <tr>
                     <th>Attribute</th>
-                    <th>Max Verstappen</th>
-                    <th>Lewis Hamilton</th>
+                    <th>{{ driver1.full_name }}</th>
+                    <th>{{ driver2.full_name }}</th>
                     <th>Better Performer</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>Age</td>
-                    <td >26</td>
-                    <td>39</td>
-                    <td>Max Verstappen</td>
+                    <td>{{ driver1.age }}</td>
+                    <td>{{ driver2.age }}</td>
+                    <td>{{ driver1.full_name if driver1.age < driver2.age else driver2.full_name }}</td>
                 </tr>
                 <tr>
                     <td>Total Pole Positions</td>
-                    <td>105</td>
-                    <td >104</td>
-                    <td>Hamilton</td>
+                    <td>{{ driver1.pole_position }}</td>
+                    <td>{{ driver2.pole_position }}</td>
+                    <td>{{ driver1.full_name if driver1.pole_position > driver2.pole_position else driver2.full_name }}
+                    </td>
                 </tr>
                 <tr>
                     <td>Race Wins</td>
-                    <td>60</td>
-                    <td >103</td>
-                    <td>Hamilton</td>
+                    <td>{{ driver1.race_wins }}</td>
+                    <td>{{ driver2.race_wins }}</td>
+                    <td>{{ driver1.full_name if driver1.race_wins > driver2.race_wins else driver2.full_name }}</td>
                 </tr>
-                <tr>
-                    <td>Points Scored</td>
-                    <td>2500</td>
-                    <td >4300</td>
-                    <td>Hamilton</td>
-                </tr>
+
                 <tr>
                     <td>World Titles</td>
-                    <td>3</td>
-                    <td >7</td>
-                    <td>Hamilton</td>
+                    <td>{{ driver1.world_championships }}</td>
+                    <td>{{ driver2.world_championships }}</td>
+                    <td>{{ driver1.full_name if driver1.world_championships > driver2.world_championships else
+                        driver2.full_name }}</td>
                 </tr>
                 <tr>
                     <td>Fastest Laps</td>
-                    <td>25</td>
-                    <td>69</td>
-                    <td>Hamilton</td>
+                    <td>{{ driver1.total_fastest_laps }}</td>
+                    <td>{{ driver2.total_fastest_laps }}</td>
+                    <td>{{ driver1.full_name if driver1.total_fastest_laps > driver2.total_fastest_laps else
+                        driver2.full_name }}</td>
                 </tr>
                 <tr>
                     <td>Teams</td>
-                    <td>Red Bull Racing</td>
-                    <td>Mercedes</td>
+                    <td>{{ driver1.team }}</td>
+                    <td>{{ driver2.team }}</td>
                     <td>-</td>
                 </tr>
             </tbody>
@@ -78,72 +81,109 @@
 
         <div class="conclusion">
             <span class="checkmark">✔</span>
-            <p> <span class="highlight-text">Lewis Hamilton</span> has superior stats in most categories except age.</p>
+            <p><span class="highlight-text">
+                    {% if driver1.race_wins > driver2.race_wins %}
+                    {{ driver1.full_name }}
+                    {% else %}
+                    {{ driver2.full_name }}
+                    {% endif %}
+                </span> has superior stats in most categories.</p>
         </div>
     </main>
-
 </body>
 <script>
-$(document).ready(function(){
-    //Highlight Row on Hover
-    $("table tbody tr").hover(
-        function() { $(this).css("background-color", "#f0f8ff"); },
-        function() { $(this).css("background-color", ""); }
-    );
+    document.addEventListener("DOMContentLoaded", function () {
+        let compareBtn = document.getElementById("compare-btn");
+        let checkboxes = document.querySelectorAll(".compare-checkbox");
 
-    //Toggle Table Visibility When Clicking the Title
-    $("h1").click(function(){ $("table").fadeToggle(); });
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener("change", function () {
+                let selectedDrivers = Array.from(document.querySelectorAll(".compare-checkbox:checked"));
 
-    //Change "Better Performer" Column Color
-    $("td:last-child").each(function(){
-        if($(this).text().trim() !== "-") {
-            $(this).css({ "color": "green", "font-weight": "bold" });
-        }
-    });
-
-    //Flash Animation for Conclusion Text
-    $(".conclusion").fadeOut(500).fadeIn(500).fadeOut(500).fadeIn(500);
-
-    //Compare Values & Highlight the Best One
-    $("tbody tr").each(function(){
-        let row = $(this);
-        let cells = row.find("td");
-        let attributeName = cells.eq(0).text().trim(); // First column (attribute name)
-        let bestPerformerCell = cells.last(); // "Better Performer" column
-
-        let bestCell = null;
-        let bestValue = (attributeName === "Age") ? Infinity : -Infinity; // Lower is better for Age
-
-        // Compare values in columns 2 & 3
-        for(let i = 1; i <= 2; i++) {
-            let value = parseInt(cells.eq(i).text(), 10);
-            if (!isNaN(value)) {
-                if ((attributeName === "Age" && value < bestValue) || 
-                    (attributeName !== "Age" && value > bestValue)) {
-                    bestValue = value;
-                    bestCell = cells.eq(i);
+                if (selectedDrivers.length === 2) {
+                    compareBtn.disabled = false;
+                    checkboxes.forEach(cb => {
+                        if (!cb.checked) cb.disabled = true;
+                    });
+                } else {
+                    compareBtn.disabled = true;
+                    checkboxes.forEach(cb => cb.disabled = false);
                 }
+            });
+        });
+
+        compareBtn.addEventListener("click", function () {
+            let selectedDrivers = Array.from(document.querySelectorAll(".compare-checkbox:checked"))
+                .map(cb => cb.getAttribute("data-driver-id"));
+
+            if (selectedDrivers.length === 2) {
+                let driver1 = encodeURIComponent(selectedDrivers[0]);
+                let driver2 = encodeURIComponent(selectedDrivers[1]);
+                window.location.href = `/compare-drivers?driver1=${driver1}&driver2=${driver2}`;
+            } else {
+                alert("❌ Please select exactly 2 drivers to compare.");
             }
-        }
-
-        // Highlight the best value
-        if (bestCell) {
-            bestCell.css({ "background-color": "#d4f4d4", "font-weight": "bold" });
-
-            // Update "Better Performer" column
-            bestPerformerCell.text(bestCell.index() === 1 ? "Max Verstappen" : "Lewis Hamilton");
-        }
+        });
     });
 
-    //Determine Overall Best Performer (Based on "Race Wins")
-    let verstappenWins = parseInt($("tbody tr:contains('Race Wins') td:eq(1)").text(), 10);
-    let hamiltonWins = parseInt($("tbody tr:contains('Race Wins') td:eq(2)").text(), 10);
-    let bestPerformer = (hamiltonWins > verstappenWins) ? "Lewis Hamilton" : "Max Verstappen";
+    // Ensure jQuery runs after the page loads
+    $(document).ready(function () {
+        // Highlight Row on Hover
+        $("table tbody tr").hover(
+            function () { $(this).css("background-color", "#f0f8ff"); },
+            function () { $(this).css("background-color", ""); }
+        );
 
-    //Update Conclusion Section Dynamically
-    $(".conclusion p").html(`<span class="highlight-text">${bestPerformer}</span> has superior stats overall.`);
-});
+        // Toggle Table Visibility When Clicking the Title
+        $("h1").click(function () { $("table").fadeToggle(); });
 
+        // Change "Better Performer" Column Color
+        $("td:last-child").each(function () {
+            if ($(this).text().trim() !== "-") {
+                $(this).css({ "color": "green", "font-weight": "bold" });
+            }
+        });
 
+        // Flash Animation for Conclusion Text
+        $(".conclusion").fadeOut(500).fadeIn(500).fadeOut(500).fadeIn(500);
+
+        // Get driver names from template
+        let driver1 = "{{ driver1.full_name | default('Driver 1') }}";
+        let driver2 = "{{ driver2.full_name | default('Driver 2') }}";
+
+        // Highlight the Best Performer
+        $("tbody tr").each(function () {
+            let row = $(this);
+            let cells = row.find("td");
+            let attributeName = cells.eq(0).text().trim(); // First column (attribute name)
+            let bestPerformerCell = cells.last(); // "Better Performer" column
+
+            let value1 = parseInt(cells.eq(1).text(), 10) || 0;
+            let value2 = parseInt(cells.eq(2).text(), 10) || 0;
+
+            // Highlight logic: Age (lower is better), everything else (higher is better)
+            let bestValue = attributeName === "Age" ? Math.min(value1, value2) : Math.max(value1, value2);
+            let bestCell = null;
+
+            if (value1 !== value2) { // If values are different, highlight the better one
+                bestCell = (bestValue === value1) ? cells.eq(1) : cells.eq(2);
+                bestCell.css({ "background-color": "#d4f4d4", "font-weight": "bold" });
+
+                // Update "Better Performer" column
+                bestPerformerCell.text(bestCell.index() === 1 ? driver1 : driver2);
+            } else {
+                bestPerformerCell.text("Equal Performance");
+            }
+        });
+
+        // Determine Overall Best Performer (Based on "Race Wins")
+        let driver1Wins = parseInt($("tbody tr:contains('Race Wins') td:eq(1)").text(), 10) || 0;
+        let driver2Wins = parseInt($("tbody tr:contains('Race Wins') td:eq(2)").text(), 10) || 0;
+        let bestPerformer = (driver1Wins > driver2Wins) ? driver1 : driver2;
+
+        // Update Conclusion Section Dynamically
+        $(".conclusion p").html(`<span class="highlight-text">${bestPerformer}</span> has superior stats overall.`);
+    });
 </script>
+
 </html>

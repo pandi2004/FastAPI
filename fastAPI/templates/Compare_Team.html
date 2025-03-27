@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compare Teams</title>
     <link rel="stylesheet" href="static/Compare_Team.css">
+    <script type="module" defer src="/static/auth.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
@@ -12,10 +13,13 @@
     <header>
         <div class="logo">Logo</div>
         <nav>
-            <a href="#">Drivers</a>
-            <a href="#">Teams</a>
-            <a href="#" class="active">Comparison</a>
-            <a href="#" class="logout">Logout</a>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/drivers-page">Drivers</a></li>
+                <li><a href="/teams">Teams</a></li>
+                <!-- <li><a href="#">Comparison</a></li> -->
+                <li><a href="/login" id="auth-button">Login</a></li>
+            </ul>
         </nav>
     </header>
 

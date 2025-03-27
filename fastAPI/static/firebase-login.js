@@ -15,13 +15,14 @@ import {
 
 // Your Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAKKq2CMmRLA44v-YmCedQxYViSXr80rDI",
-  authDomain: "dfsdfd-b738c.firebaseapp.com",
-  projectId: "dfsdfd-b738c",
-  storageBucket: "dfsdfd-b738c.firebasestorage.app",
-  messagingSenderId: "34081183698",
-  appId: "1:34081183698:web:68a1b9c5845e87c6dc5a0b"
+  apiKey: "AIzaSyASL8YOQOAPKZqgFP9J4o4vvmJoGCkzHzE",
+  authDomain: "fastapiproject-19c47.firebaseapp.com",
+  projectId: "fastapiproject-19c47",
+  storageBucket: "fastapiproject-19c47.firebasestorage.app",
+  messagingSenderId: "770273801116",
+  appId: "1:770273801116:web:afa4ebd5b6b232a0d14e59"
 };
+
 
 // Initialize Firebase
 let app, auth, db;

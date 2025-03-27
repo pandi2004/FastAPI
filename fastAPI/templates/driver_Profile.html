@@ -5,20 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Driver Profile</title>
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/static/DriverProfile.css">
     <script type="module" defer src="/static/auth.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body>
 
-  <header>
+<body class="bg-gray-900 text-gray-100">
+
+    <!-- Navigation Bar -->
+    <header>
         <div class="logo">Logo</div>
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/drivers-page">Drivers</a></li>
-                <li><a href="/teams-page">Teams</a></li>
+                <li><a href="/teams">Teams</a></li>
+                <!-- <li><a href="#">Comparison</a></li> -->
                 <li><a href="/login" id="auth-button">Login</a></li>
             </ul>
         </nav>
@@ -27,195 +30,218 @@
     <!-- Profile Header -->
     <div class="relative">
         <img src="https://s3-alpha-sig.figma.com/img/6e91/4815/87c7c3cd3f0de9c966a22cb94b7ba8ae?Expires=1743984000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=pNvSE2QSq1x74aJzEKToURdPKUNebrWp~nOXZVb1fLPuaGkL1CUNcej3mml7RfsWCAEe-b6xTMe8FiTXmEVmSWWTZiGvpZQHYbLVX~CzMCM5-Mq67TIdJ0itwymHDMA49qYdvBkV3Y-frtzQZAD4D53BYvVGO7Vhf76A9UlQ5k18gEFlPGSDl4tAdQ6crgqEiFpXJX-TE8vZah5Ngf~zBChJOB0rITjqL1F68dUXEn5sSrEMeuqcI6edtJAumNLVoYQFSwdquU2WhGqMmOCqR0CQfScBq~XeBAH8f9TMNQa6uiVa4lNptTzCE2ucdo3RbqaTbySjJmb4oXPWpElueg__"
-            alt="Driver Background" class="driver-background">
+            alt="Driver Background" class="w-full h-64 object-cover">
+        <!-- <div class="absolute top-40 left-1/2 transform -translate-x-1/2 text-center">
+             <img src="https://source.unsplash.com/150x150/?portrait,man" alt="Driver" class="rounded-full border-4 border-white mx-auto">
+                <h1 class="text-2xl font-bold mt-3">MAX EMILIAN VERSTAPPEN</h1>
+                <h2 class="text-blue-500 font-semibold">RED BULL RACING</h2> 
+        </div> -->
     </div>
 
     <!-- Profile Details -->
-    <div class="profile-container">
-        <form id="addDriverForm">
-            <div class="form-grid">
+    <div class="bg-white text-black  shadow-lg">
+        <form class="px-16 py-10" id="addDriverForm">
+            <div class="grid grid-cols-2 gap-6">
                 <!-- Left Column -->
                 <div>
-                    <div class="input-group">
-                        <label for="full_name">Full Name</label>
-                        <input id="full_name" name="full_name" type="text">
+                    <div class="mb-4">
+                        <label for="full_name" class="text-gray-600">Full Name</label>
+                        <input id="full_name" name="full_name" type="text"
+                            class="w-full p-2 border rounded bg-gray-100">
                     </div>
-                    <div class="input-group">
-                        <label for="driver_id">Driver ID</label>
-                        <input id="driver_id" name="driver_id" type="text">
+                    <div class="mb-4">
+                        <label for="driver-id" class="text-gray-600">Driver ID</label>
+                        <input id="driver_id" name="driver_id" type="text"
+                            class="w-full p-2 border rounded bg-gray-100">
                     </div>
-                    <div class="input-group">
-                        <label for="pole_position">Pole Position</label>
-                        <input id="pole_position" name="pole_position" type="number">
+                    <div class="mb-4">
+                        <label for="pole_position" class="text-gray-600">Pole Position</label>
+                        <input id="pole_position" name="pole_position" type="number"
+                            class="w-full p-2 border rounded bg-gray-100">
                     </div>
-                    <div class="input-group">
-                        <label for="language">Language</label>
-                        <input id="language" name="language" type="text">
+                    <div class="mb-4">
+                        <label for="language" class="text-gray-600">Language</label>
+                        <input id="language" name="language" type="text" class="w-full p-2 border rounded bg-gray-100">
                     </div>
                 </div>
 
                 <!-- Right Column -->
                 <div>
-                    <div class="input-group">
-                        <label for="age">Age</label>
-                        <input id="age" name="age" type="number">
+                    <div class="mb-4">
+                        <label for="age" class="text-gray-600">Age</label>
+                        <input id="age" name="age" type="number" class="w-full p-2 border rounded bg-gray-100">
                     </div>
-                    <div class="input-group">
-                        <label for="race_wins">Race Wins</label>
-                        <input id="race_wins" name="race_wins" type="number">
+                    <div class="mb-4">
+                        <label for="race_wins" class="text-gray-600">Race Wins</label>
+                        <input id="race_wins" name="race_wins" type="number"
+                            class="w-full p-2 border rounded bg-gray-100">
                     </div>
-                    <div class="input-group">
-                        <label for="country_titles">Country Titles</label>
-                        <input id="country_titles" name="country_titles" type="number">
+                    <div class="mb-4">
+                        <label for="country_titles" class="text-gray-600">Country Titles</label>
+                        <input id="country_titles" name="country_titles" type="number"
+                            class="w-full p-2 border rounded bg-gray-100">
                     </div>
-                    <div class="input-group">
-                        <label for="team">Team</label>
-                        <input id="team" name="team" type="text">
+                    <div class="mb-4">
+                        <label for="team" class="text-gray-600">Team</label>
+                        <input id="team" name="team" type="text" class="w-full p-2 border rounded bg-gray-100">
                     </div>
                 </div>
             </div>
 
             <!-- Additional Information -->
-            <h2 class="section-title">Additional Information</h2>
-            <div class="form-grid">
+            <h2 class="text-blue-500 text-xl font-semibold mt-8">Additional Information</h2>
+            <div class="grid grid-cols-2 gap-6 mt-4">
+                <!-- Left Column -->
                 <div>
-                    <h3 class="sub-title">Personal Information</h3>
-                    <div class="input-group">
-                        <label for="date_of_birth">Date of Birth</label>
-                        <input id="date_of_birth" name="date_of_birth" type="text">
+                    <h3 class="text-gray-800 font-bold">Personal Information</h3>
+                    <div class="mb-4">
+                        <label for="date_of_birth" class="text-gray-600">Date of Birth</label>
+                        <input id="date_of_birth" name="date_of_birth" type="text"
+                            class="w-full p-2 border rounded bg-gray-100">
                     </div>
-                    <div class="input-group">
-                        <label for="nationality">Nationality</label>
-                        <input id="nationality" name="nationality" type="text">
+                    <div class="mb-4">
+                        <label for="nationality" class="text-gray-600">Nationality</label>
+                        <input id="nationality" name="nationality" type="text"
+                            class="w-full p-2 border rounded bg-gray-100">
                     </div>
-                    <div class="input-group">
-                        <label for="father">Father</label>
-                        <input id="father" name="father" type="text">
+                    <div class="mb-4">
+                        <label for="father" class="text-gray-600">Father</label>
+                        <input id="father" name="father" type="text" class="w-full p-2 border rounded bg-gray-100">
                     </div>
-                    <div class="input-group">
-                        <label for="mother">Mother</label>
-                        <input id="mother" name="mother" type="text">
+                    <div class="mb-4">
+                        <label for="mother" class="text-gray-600">Mother</label>
+                        <input id="mother" name="mother" type="text" class="w-full p-2 border rounded bg-gray-100">
                     </div>
                 </div>
 
+                <!-- Right Column -->
                 <div>
-                    <h3 class="sub-title">Career Highlights & Achievements</h3>
-                    <div class="input-group">
-                        <label for="world_championships">World Championships</label>
-                        <input id="world_championships" name="world_championships" type="number">
+                    <h3 class="text-gray-800 font-bold">Career Highlights & Achievements</h3>
+                    <div class="mb-4">
+                        <label for="world_championships" class="text-gray-600">World Championships</label>
+                        <input id="world_championships" name="world_championships" type="number"
+                            class="w-full p-2 border rounded bg-gray-100">
                     </div>
-                    <div class="input-group">
-                        <label for="total_fastest_laps">Total Fastest Laps</label>
-                        <input id="total_fastest_laps" name="total_fastest_laps" type="number">
+                    <div class="mb-4">
+                        <label for="total_fastest_laps" class="text-gray-600">Total Fastest Laps</label>
+                        <input id="total_fastest_laps" name="total_fastest_laps" type="number"
+                            class="w-full p-2 border rounded bg-gray-100">
                     </div>
                 </div>
             </div>
 
-            <!-- Submit Button -->
-            <div class="form-submit">
-                <button id="add-driver-btn" type="submit">ADD</button>
+            <!-- Edit Button -->
+            <div class="text-center mt-6 w-full">
+                <button id="add-driver-btn" type="submit"
+                    class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 w-full">
+                    ADD
+                </button>
             </div>
         </form>
     </div>
 </body>
+<script>
 
-    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let urlParams = new URLSearchParams(window.location.search);
+        let driverName = urlParams.get("driverName");
+        console.log("Extracted Driver Name:", driverName);
 
-document.addEventListener("DOMContentLoaded", function () {
-    let urlParams = new URLSearchParams(window.location.search);
-    let driverId = urlParams.get("driver_id");
+        if (driverName) {
+            // Editing an existing driver
+            alert("Other then Name Field, You can edit other fields.")
+            document.getElementById("add-driver-btn").textContent = "Edit Driver";
 
-    if (driverId) {
-        // Editing an existing driver
-        document.querySelector(".add-driver-btn").textContent = "Edit Driver";
-
-        // Fetch driver details
-        fetch(`/driver/${driverId}`)
-            .then(response => response.json())
-            .then(driver => {
-                if (driver.error) {
-                    alert("Driver not found!");
-                    return;
-                }
-
-                // Pre-fill form fields with driver data
-                document.getElementById("full_name").value = driver.full_name;
-                document.getElementById("driver_id").value = driver.driver_id;
-                document.getElementById("pole_position").value = driver.pole_position;
-                document.getElementById("language").value = driver.language;
-                document.getElementById("age").value = driver.age;
-                document.getElementById("race_wins").value = driver.race_wins;
-                document.getElementById("country_titles").value = driver.country_titles;
-                document.getElementById("team").value = driver.team;
-                document.getElementById("date_of_birth").value = driver.date_of_birth;
-                document.getElementById("nationality").value = driver.nationality;
-                document.getElementById("father").value = driver.father;
-                document.getElementById("mother").value = driver.mother;
-                document.getElementById("world_championships").value = driver.world_championships;
-                document.getElementById("total_fastest_laps").value = driver.total_fastest_laps;
-            })
-            .catch(error => console.error("Error fetching driver details:", error));
-    }
-});
-
-
-        document.addEventListener("DOMContentLoaded", function () {
-    let addButton = document.getElementById("add-driver-btn");
-    let driverForm = document.getElementById("addDriverForm");
-
-    if (addButton && driverForm) {
-        driverForm.addEventListener("submit", function (event) {
-            event.preventDefault(); // Prevent page refresh
-
-            let token = getCookie("token"); // Get token from cookies
-            if (!token) {
-                alert("You must be logged in to add a driver.");
-                return;
-            }
-
-            let formData = new FormData(driverForm);
-            formData.append("token", token); // Add token manually
-
-            fetch("/add-driver", {
-                method: "POST",
-                body: formData,
-            })
-                .then(response => {
-                    if (response.redirected) {
-                        alert("Driver Profile Created Successfully!");
-                        window.location.href = "/drivers-page"; // Redirect after alert
-                    } else {
-                        return response.json();
+            // Fetch driver details and populate form
+            fetch(`/driver/${driverName}`)
+                .then(response => response.json())
+                .then(driver => {
+                    if (driver.error) {
+                        console.error("Error fetching driver:", driver.error);
+                        return;
                     }
-                })
-                .then(data => {
-                    if (data && data.detail) {
-                        alert("Error: " + data.detail[0].msg);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error adding driver:", error);
-                    alert(" Something went wrong. Please try again.");
-                });
-        });
-    } else {
-        console.error("ERROR: Add Driver button or form not found. Check ID.");
-    }
-});
 
+                    // Populate form fields
+                    document.getElementById("full_name").value = driver.full_name || "";
+                    document.getElementById("driver_id").value = driver.driver_id || "";
+                    document.getElementById("pole_position").value = driver.pole_position || "";
+                    document.getElementById("language").value = driver.language || "";
+                    document.getElementById("age").value = driver.age || "";
+                    document.getElementById("race_wins").value = driver.race_wins || "";
+                    document.getElementById("country_titles").value = driver.country_titles || "";
+                    document.getElementById("team").value = driver.team || "";
+                    document.getElementById("date_of_birth").value = driver.date_of_birth || "";
+                    document.getElementById("nationality").value = driver.nationality || "";
+                    document.getElementById("father").value = driver.father || "";
+                    document.getElementById("mother").value = driver.mother || "";
+                    document.getElementById("world_championships").value = driver.world_championships || "";
+                    document.getElementById("total_fastest_laps").value = driver.total_fastest_laps || "";
 
-        // Function to get the token from cookies
-        function getCookie(name) {
-            let cookies = document.cookie.split("; ");
-            for (let cookie of cookies) {
-                let [key, value] = cookie.split("=");
-                if (key === name) return value;
-            }
-            return "";
+                    // Make full name field readonly
+                    document.getElementById("full_name").readOnly = true;
+                })
+                .catch(error => console.error("Error fetching driver data:", error));
+        }else{
+            alert("Don't Enter the existing driver name, if done so the driver profile will get updated");
         }
 
 
+        let addButton = document.getElementById("add-driver-btn");
+        let driverForm = document.getElementById("addDriverForm");
 
-    </script>
+        if (addButton && driverForm) {
+            driverForm.addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent page refresh
+
+                let token = getCookie("token"); // Get token from cookies
+                if (!token) {
+                    alert("You must be logged in to add a driver.");
+                    return;
+                }
+
+                let formData = new FormData(driverForm);
+                formData.append("token", token); // Add token manually
+
+                fetch("/add-driver", {
+                    method: "POST",
+                    body: formData,
+                })
+                    .then(response => {
+                        if (response.redirected) {
+                            alert(`Team Profile ${driverName?"Edited":"Created"} Successfully!`);
+                            window.location.href = "/drivers-page"; // Redirect after alert
+                        } else {
+                            return response.json();
+                        }
+                    })
+                    .then(data => {
+                        if (data && data.detail) {
+                            alert("Error: " + data.detail[0].msg);
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error adding driver:", error);
+                        alert(" Something went wrong. Please try again.");
+                    });
+            });
+        } else {
+            console.error("ERROR: Add Driver button or form not found. Check ID.");
+        }
+    });
+
+
+    // Function to get the token from cookies
+    function getCookie(name) {
+        let cookies = document.cookie.split("; ");
+        for (let cookie of cookies) {
+            let [key, value] = cookie.split("=");
+            if (key === name) return value;
+        }
+        return "";
+    }
+
+
+
+</script>
 
 </html>
