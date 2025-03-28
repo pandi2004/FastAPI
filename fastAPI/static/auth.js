@@ -16,12 +16,12 @@ function checkAuthStatus() {
 
     if (authButton) {
         if (token) {
-            console.log("User is logged in:", token);
+            // console.log("User is logged in:", token);
             authButton.innerText = "Logout"; // Change text to "Logout"
             authButton.href = "#"; // Prevent navigation
             authButton.addEventListener("click", logoutUser);
         } else {
-            console.log("User is NOT logged in.");
+            // console.log("User is NOT logged in.");
             authButton.innerText = "Login"; // Change text to "Login"
             authButton.href = "/login"; // Redirect to login page
         }

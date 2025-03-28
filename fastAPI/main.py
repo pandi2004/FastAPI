@@ -23,7 +23,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-service_account_path = r"C:/Users/91861/Downloads/fastAPI project/fastAPI project/gcloud-key.json"
+service_account_path = "gcloud-key.json"
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = service_account_path
 
 # Firestore Database
@@ -41,7 +41,7 @@ def verify_firebase_token(token: str):
         decoded_token = google.oauth2.id_token.verify_firebase_token(token, request_adapter)
         return decoded_token  # Return user details if valid
     except Exception as e:
-        print("Token verification failed:", str(e))
+        # print("Token verification failed:", str(e))
         return None  # Return None if invalid
 
 
@@ -62,7 +62,7 @@ async def root(request: Request):
 @app.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request, token: Optional[str] = Query(None)):
     user_token = verify_firebase_token(token) if token else None
-    return templates.TemplateResponse("login.html", {"request": request, "user_token": user_token})
+    return templates.TemplateResponse("lg.html", {"request": request, "user_token": user_token})
 
 
 
@@ -170,15 +170,15 @@ async def add_driver(
 #--------------------------------------
 @app.get("/driver/{driverName}", response_class=JSONResponse)
 async def get_driver(driverName: str):
-    print(f"Checking Firestore for driver: {driverName}")  # Debugging
+    # print(f"Checking Firestore for driver: {driverName}")  # Debugging
 
     driver_ref = db.collection("Drivers").document(driverName).get()
 
     if not driver_ref.exists:
-        print(f"Driver {driverName} not found in Firestore")  # Debugging
+        # print(f"Driver {driverName} not found in Firestore")  # Debugging
         raise HTTPException(status_code=404, detail="Driver not found")
 
-    print(f"Found Driver: {driver_ref.to_dict()}")  # Debugging
+    # print(f"Found Driver: {driver_ref.to_dict()}")  # Debugging
     return driver_ref.to_dict()
 
 
@@ -370,16 +370,16 @@ async def add_team(
 @app.get("/team/{teamName}", response_class=JSONResponse)
 async def get_team(teamName: str):
     teamName = teamName.strip()  # optional
-    print(f"Checking Firestore for team: {teamName}")  # Debugging
+    # print(f"Checking Firestore for team: {teamName}")  # Debugging
 
     team_doc = db.collection("Teams").document(teamName).get()
 
     if not team_doc.exists:
-        print(f"Team {teamName} not found in Firestore")  # Debugging
+        # print(f"Team {teamName} not found in Firestore")  # Debugging
         raise HTTPException(status_code=404, detail="Team not found")
 
     team_data = team_doc.to_dict()
-    print(f"Found Team: {team_data}")  # Debugging
+    # print(f"Found Team: {team_data}")  # Debugging
     return team_data
 
 from fastapi import Request

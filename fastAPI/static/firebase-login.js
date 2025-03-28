@@ -66,7 +66,7 @@ document.getElementById("sign-up").addEventListener("click", () => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  console.log(email, password);
+  // console.log(email, password);
 
   const API_KEY = "AIzaSyASL8YOQOAPKZqgFP9J4o4vvmJoGCkzHzE"; // Update this
   fetch(

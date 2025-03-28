@@ -4,7 +4,7 @@ entrypoint: uvicorn main:app --host=0.0.0.0 --port=$PORT
 instance_class: F2  # Adjust this based on your needs
 
 automatic_scaling:
-  target_cpu_utilization: 0.65
+  target_cpu_utilization: 0.85
   min_instances: 1
   max_instances: 5
 
